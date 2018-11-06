@@ -1,0 +1,79 @@
+<%- include layouts/top-left%>
+<!--end top-left--> 
+
+<div class="main-panel">
+
+<!--nav bar-->
+<%- include layouts/nav-bar%>
+<!--nav bar-->
+
+
+<div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                    <div class="col-md-12">
+                            <div class="col-md-9" align="left">
+                            </div>
+                            <div class="input-group col-md-3" align="right">
+                                    <input type="text" class="form-control" name="x" placeholder="Search term...">
+                                    <!-- <input type="text" class="form-control input-lg" placeholder="Văn" /> -->
+                                    <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button"><span class="ti-search"></span></button>
+                                    </span>
+                            </div>
+                    </div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Users Table</h4>
+
+                        </div>
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-striped">
+                                <thead>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Adress</th>
+                                    <th>Contact</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Dakota Rice</td>
+                                        <td>Checker</td>
+                                        <td>rice@gmail.com</td>
+                                        <td>Hue</td>
+                                        <td>0399267407</td>
+                                        <td>
+                                            <a href="" class="btn btn-primary btn-xs" ><span class="ti-pencil"></span></a>
+                                            <a href="" class="btn btn-danger btn-xs" ><span class="ti-trash"></span></a>
+                                        </td>    
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <ul class="pagination" >
+                            <li class="disabled"><a href="#">«</a></li>
+                            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">»</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+        
+		<!--footer-->
+        <%- include layouts/footer%>

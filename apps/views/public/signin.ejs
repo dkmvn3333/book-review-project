@@ -1,0 +1,73 @@
+<%- include layouts/header%>
+        
+        <!-- Search bar -->
+        <div class="search-wrapper">
+            <div class="container container--add">
+                <form id='search-form' method='get' class="search">
+                    <input type="text" class="search__field" placeholder="Search">
+                    <select name="sorting_item" id="search-sort" class="search__sort" tabindex="0">
+                        <option value="1" selected='selected'>By title</option>
+                        <option value="2">By year</option>
+                        <option value="3">By producer</option>
+                        <option value="4">By title</option>
+                        <option value="5">By year</option>
+                    </select>
+                    <button type='submit' class="btn btn-md btn--danger search__button">search a movie</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Main content -->
+                
+                <form  id="login-form" class="login" method='post' action="/signin" novalidate=''>
+                    <% if(data && data.error){%>
+                        <div class="alert alert-warning alert-dismissible show" role="alert">
+                                <strong><%=data.error%></strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div> 
+                    <%}%>
+                    <% if(data && data.msg){%>
+                        <div class="alert alert-success alert-dismissible show" role="alert">
+                                <strong><%=data.msg%></strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div> 
+                    <%}%>
+                    <p class="login__title">sign up <br><span class="login-edition">welcome to R.VELO</span></p>
+
+                    <div class="social social--colored">
+                            <a href='#' class="social__variant fa fa-facebook"></a>
+                            <a href='#' class="social__variant fa fa-twitter"></a>
+                            <a href='#' class="social__variant fa fa-tumblr"></a>
+                    </div>
+
+                    <p class="login__tracker">or</p>
+                    
+                    <div class="field-wrap">
+                            <% if(data && data.errors){%>
+                            <%data.errors.forEach(function(item){%>
+                                <div class="alert alert-warning alert-dismissible show" role="alert">
+                                        <strong><%= item.msg%></strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div> 
+                            <%})%>
+                            <%}%>
+
+                    <input type='email' placeholder='Email' name='email' class="login__input">
+                    <input type='password' placeholder='Password' name='password' class="login__input">
+                     </div>
+                    
+                    <div class="login__control">
+                        <button type='submit' class="btn btn-md btn--warning btn--wider">Register</button>
+                    </div>
+                </form>
+        
+        <div class="clearfix"></div>
+    </div>
+
+    <%- include layouts/footer%>

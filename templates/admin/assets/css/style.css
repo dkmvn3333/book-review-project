@@ -1,0 +1,32 @@
+.filter-button
+{
+    font-size: 18px;
+    border: 1px solid #42B32F !important;
+    border-radius: 5px;
+    text-align: center;
+    color: #42B32F !important;
+    margin-bottom: 30px;
+
+}
+.filter-button:hover 
+{
+    font-size: 18px;
+    border: 1px solid #42B32F !important;
+    border-radius: 5px;
+    text-align: center;
+    color: #ffffff !important;
+    background-color: #42B32F !important;
+
+}
+.btn-default:active .filter-button:active
+{
+    background-color: #42B32F !important;
+    color: white !important;
+}
+.pagination>li>a, .pagination>li>span { border-radius: 50% !important;margin: 0 5px;}
+.pagination{    display: block!important; margin: 25px auto!important; width: 300px;}
+.btn-glyphicon { padding:8px !important; background:#ffffff!important; margin-right:4px!important; }
+.icon-btn { padding: 1px 15px 3px 2px!important; border-radius:50px!important;}
+a.btn.icon-btn.btn-success {
+    margin: 0px 0px 10px -15px;
+}
