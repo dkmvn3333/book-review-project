@@ -10,7 +10,7 @@ var storage = multer.diskStorage({
       cb(null, file.originalname)
     }
   })
-var upload = multer({ storage: storage }).single('avatar');
+var upload = multer({ storage: storage });
 
 var session = require("express-session");
 
@@ -31,7 +31,7 @@ router.get("/", function(req,res){
 router.get("/signup", function(req,res){
     res.render("public/signup",{active: "signup",data:{}});
 });
-router.post("/signup",upload,function(req,res,next){
+router.post("/signup",upload.single('avatar'),function(req,res,next){
     var name = req.body.name;
     var email = req.body.email;
     var password = req.body.password;
@@ -42,8 +42,9 @@ router.post("/signup",upload,function(req,res,next){
         var avatar = req.file.originalname;
     }else{
         console.log("No File Uploaded...");
-        var avatar = 'noimage.jpg';
+        var avatar = null;
     }
+
     // Form validator
     req.checkBody('name','Name field is required').notEmpty();
     req.checkBody('email','Email field is required').notEmpty();
@@ -56,6 +57,8 @@ router.post("/signup",upload,function(req,res,next){
         console.log("Errors");
         res.render("public/signup",{active: "signup", data:{errors : errors}});
     }else{
+        
+
         console.log("No Errors");
         var temp_password = helper.hash_password(req.body.password);
         var user ={

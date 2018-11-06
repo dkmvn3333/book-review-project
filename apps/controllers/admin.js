@@ -1,6 +1,18 @@
 var express =require("express");
 var router = express.Router();
 
+var multer = require("multer");
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname)
+    }
+  })
+var upload = multer({ storage: storage });
+
+
 var category_md = require("../models/category");
 
 
@@ -42,10 +54,17 @@ router.get("/categories", function(req,res){
 router.get("/categories/add", function(req,res){
     res.render("admin/categories_add", {active : "categories",data:{errors:false, error:false}});
 });
-router.post("/categories/add", function(req,res){
+router.post("/categories/add",upload.single('category_image') ,function(req,res){
     var name = req.body.name;
     var discription = req.body.discription;
     console.log(name +" "+discription);
+    if(req.file){
+        console.log("Uploading File...");
+        var image = req.file.originalname;
+    }else{
+        console.log("No File Uploaded...");
+        var image = 'noimage.jpg';
+    }
     req.checkBody('name','Name field is required').notEmpty();
        // Check Errors
        var errors = req.validationErrors();
@@ -57,7 +76,8 @@ router.post("/categories/add", function(req,res){
 
            var category ={
                name: name,
-               discription: discription
+               discription: discription,
+               category_image: image
            };
            console.log("preparing add category");
        

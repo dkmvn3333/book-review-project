@@ -36,7 +36,7 @@
                                         </button>
                                     </div> 
                             <%}%>
-                        <form class="form-horizontal" method="post" action="/admin/categories/add">
+                        <form class="form-horizontal" enctype="multipart/form-data" method="post" action="/admin/categories/add">
                             <fieldset>
                             
                             <!-- Text input-->
@@ -56,6 +56,13 @@
                               </div>
                             </div>
                             
+                            <!-- File Button --> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="filebutton">Image</label>
+                                <div class="col-md-4">
+                                <input id="filebutton" name="category_image" class="input-file" type="file">
+                                </div>
+                            </div>
                             <!-- Button -->
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for=""></label>
