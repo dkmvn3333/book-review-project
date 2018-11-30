@@ -29,9 +29,17 @@
                             <h4 class="title">Roles Table</h4>
                             
                         </div>
-                        <% if(msg.length > 0){%>
+                        <% if(success_msg.length > 0){%>
                             <div class="alert alert-success alert-dismissible show" role="alert">
-                                    <strong><%=msg%></strong>
+                                    <strong><%=success_msg%></strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div> 
+                        <%}%>
+                        <% if(error_msg.length > 0){%>
+                            <div class="alert alert-danger alert-dismissible show" role="alert">
+                                    <strong><%=error_msg%></strong>
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -40,7 +48,7 @@
                         <div class="content table-responsive table-full-width">
                             <table class="table table-striped">
                                 <thead>
-                                    <th>ID</th>
+                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Discription</th>
                                     <th></th>
@@ -49,12 +57,12 @@
                                         <% if(data && data.categories){%>
                                             <%data.categories.forEach(function(item){%>
                                     <tr>
-                                        <td><%= item.category_id%></td>
+                                        <td><img src="../uploads/<%=item.category_image%>" class="image_admin" /></td>
                                         <td><%= item.name%></td>
                                         <td><%= item.discription%></td>
                                         <td>
-                                            <a href="" class="btn btn-primary btn-xs" ><span class="ti-pencil"></span></a>
-                                            <a href="" class="btn btn-danger btn-xs" ><span class="ti-trash"></span></a>
+                                            <a href="/admin/categories/edit/<%= item.category_id%>" class="btn btn-primary btn-xs" ><span class="ti-pencil"></span></a>
+                                            <a href="#" class="btn btn-danger btn-xs category_delete" category_id="<%= item.category_id%>" ><span class="ti-trash"></span></a>
                                         </td>  
                                     </tr>
                                             <%})%>
@@ -80,6 +88,6 @@
         </div>
     </div>
 
-        
+    <script type="text/javascript" src="/static_admin/assets/js/category.js"></script>
 		<!--footer-->
         <%- include layouts/footer%>

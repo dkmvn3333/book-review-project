@@ -31,7 +31,22 @@ function getUserByEmail(email){
         return defer.promise;
     }
 }
+function getUserByEmailOfAdmin(email){
+    if(email){
+        var defer = q.defer();
+        var query = pool.query("SELECT * FROM user WHERE email =? AND role_id = ?",[email,0], function(err, result){
+            if(err){
+                defer.reject(err);
+            }else{
+                defer.resolve(result);
+            }
+        });
+
+        return defer.promise;
+    }
+}
 module.exports = {
     addUser: addUser,
-    getUserByEmail:getUserByEmail
+    getUserByEmail:getUserByEmail,
+    getUserByEmailOfAdmin:getUserByEmailOfAdmin
 };
