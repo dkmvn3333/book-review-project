@@ -1,0 +1,127 @@
+<%- include layouts/header%>
+        
+        <!-- Search bar -->
+        <div class="search-wrapper">
+            <div class="container container--add">
+                <form id='search-form' method='get' class="search">
+                    <input type="text" class="search__field" placeholder="Search">
+                    <select name="sorting_item" id="search-sort" class="search__sort" tabindex="0">
+                        <option value="1" selected='selected'>By title</option>
+                        <option value="2">By year</option>
+                        <option value="3">By producer</option>
+                        <option value="4">By title</option>
+                        <option value="5">By year</option>
+                    </select>
+                    <button type='submit' class="btn btn-md btn--danger search__button">search a movie</button>
+                </form>
+            </div>
+        </div>
+        
+        <% if(user_public!=null){%>
+        <!-- Main content -->
+        <section class="container">
+            <h2 class="page-heading heading--outcontainer">Post Assessment</h2>
+            <% if(data && data.msg){%>
+                <div class="contact">
+                    <p class="contact__title">Cám ơn bạn đã hổ trợ,<br><span class="contact__describe">Bài đăng của bạn sẽ sớm được kiểm duyệt</span></p>
+                </div>
+            <%}%>
+            <% if(data && data.error){%>
+                <div class="contact">
+                    <p class="contact__title"><%=data.error%></p>
+                </div>
+            <%}%>
+
+        </section>
+
+        <div class="contact-form-wrapper">
+            <div class="container">
+                <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                    <form enctype="multipart/form-data" class="form row" method='post' novalidate="" action="/post_assessment">
+                        <p class="form__title">Nội dung đánh giá</p>
+
+                        <% if(data && data.errors){%>
+                            <%data.errors.forEach(function(item){%>
+                                <div class="alert alert-info">
+                                    <span class='icon-info'></span>
+                                    <%= item.msg%>
+                                    <a class="close" data-dismiss="alert" href="#" aria-hidden="true"></a>
+                                </div>
+                            <%})%>
+                            <%}%>
+                        
+                        <div class="col-sm-3">
+                                <span class="contact__describe">Tên sách</span>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="name_book" type='text' class="form__mail" <%if(data && data.book){%>  value="<%=data.book.name_book%>" <%}else{%> value="" <%}%>>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <span class="contact__describe">Tác giả</span>
+                        </div>
+                        <div class="col-sm-9">
+                                    <input name="author" type='text' class="form__mail" <%if(data && data.book){%>  value="<%=data.book.author%>" <%}else{%> value="" <%}%>>
+                        </div>
+                            <input type="hidden" name="book_id" type='text' class="form__mail" <%if(data && data.book){%> value="<%=data.book.book_id%>" <%}else{%> value="0"<%}%>>
+                            
+                            <input type="hidden" name="user_id" type='text' class="form__mail" value="<%=user_public.user_id%>">
+                        <div class="col-sm-3">
+                                <span class="contact__describe">Đánh giá</span>
+                        </div>
+                        <div class="col-sm-9">
+                            <td class="rates__stars"><div class="score"></div></td>
+                        </div>
+                        <input type="hidden" name="rate" id="rate">
+
+                        <div class="col-sm-3">
+                                <span class="contact__describe">Title</span>
+                        </div>
+                        <div class="col-sm-9">
+                                <input type='text' name='title' class="form__mail">
+                        </div>
+
+                        <div class="col-sm-3">
+                                <span class="contact__describe">Nội dung</span>
+                        </div>
+                        <div class="col-sm-9">
+                            <textarea name="content" class="form__message"></textarea>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <span class="contact__describe">Châm ngôn</span>
+                        </div>
+                        <div class="col-sm-9">
+                                <input type='text' name='quote' class="form__mail">
+                        </div>
+
+
+                        <div class="col-sm-3">
+                            <span class="contact__describe">Hình ảnh</span>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="file" name='picture' class="contact__describe"  >
+                        </div>
+
+                        <div class="login__control">
+                            <button type="submit" class='btn btn-md btn--danger'>send message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <%}else{%> 
+            <!-- Main content -->
+        <section class="container">
+            <h2 class="page-heading heading--outcontainer">Post Assessment</h2>
+                <div class="contact">
+                    <p class="contact__title">Bạn vui lòng đăng nhập để viết đánh giá<br><span class="contact__describe">Thank you!</span></p>
+                    <a href="#" class="btn btn-md btn--warning btn--book btn-control--home login-window">Sign In</a>
+                </div>
+        </section>
+            
+        <%}%>
+        
+        <div class="clearfix"></div>
+
+        <%- include layouts/footer%>

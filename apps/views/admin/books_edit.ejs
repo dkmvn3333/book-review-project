@@ -1,0 +1,138 @@
+<%- include layouts/top-left%>
+<!--end top-left--> 
+
+<div class="main-panel">
+
+<!--nav bar-->
+<%- include layouts/nav-bar%>
+<!--nav bar-->
+
+
+<div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                    
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Roles Table</h4>
+                            
+                        </div>
+                        <% if(data && data.errors){%>
+                            <%data.errors.forEach(function(item){%>
+                                <div class="alert alert-warning alert-dismissible show" role="alert">
+                                        <strong><%= item.msg%></strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div> 
+                            <%})%>
+                            <%}%>
+                            <% if(data && data.error){%>
+                                <div class="alert alert-warning alert-dismissible show" role="alert">
+                                        <strong><%= data.error%></strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div> 
+                            <%}%>
+                        <form class="form-horizontal" enctype="multipart/form-data" method="POST" action="/admin/books/edit/<%=data.books[0].book_id%>">
+                            <fieldset>
+                            
+                            <% if(data && data.error || data.books.length==0){%>
+                                <h2>Không thể lấy dữ liệu!</h2>
+                            <%}else if(data && data.books.length>0){
+
+                            %>
+                            
+                            <!-- Text input-->
+ 
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="textinput">Name</label>  
+                              <div class="col-md-4">
+                              <input id="name" name="name_book" type="text" placeholder="Name of Book" class="form-control input-md" value="<%=data.books[0].name_book%>" >
+                                
+                              </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="textinput">Author</label>  
+                                <div class="col-md-4">
+                                <input id="author" name="author" type="text" placeholder="Name of Author" class="form-control input-md"  value="<%=data.books[0].author%>" >
+                                  
+                                </div>
+                              </div>
+
+
+                              <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textinput">Categories</label>  
+                                    <div class="col-md-4">
+                                            <% if(data && data.categories){%>
+                                                <%data.categories.forEach(function(item){%>
+                                            <label class="checkbox-inline" >
+                                                <input type="checkbox" name="check_categories[]" value="<%=item.category_id%>"
+                                                <%
+                                                    for(var i=0; i<data.books.length; i++){
+                                                        if(item.category_id == data.books[i].category_id){
+                                                            %>
+                                                            checked
+                                                            <%
+                                                        break;
+                                                        }
+                                                    }
+                                                %>        
+                                                >
+                                                
+                                                <%=item.name%>
+                                            </label>
+                                            <%})%>
+                                            <%}%>                 
+                                    </div>
+                                  </div>
+
+                              <div class="form-group">
+                                <label class="col-md-4 control-label" for="textinput">Pages</label>  
+                                <div class="col-md-4">
+                                <input id="pages" name="pages" type="text" placeholder="Pages" class="form-control input-md" value="<%=data.books[0].pages%>">
+                                </div>
+                              </div>
+                            
+                              <!-- File Button --> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="filebutton">Picture</label>
+                                <div class="col-md-4">
+                                <input id="filebutton" name="image" class="input-file" type="file">
+                                </div>
+                                <input type="hidden" name="pre_image" value="<%=data.books[0].image%>">
+                            </div>
+                            <!-- Textarea -->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="textarea">Description</label>
+                              <div class="col-md-4">                     
+                                <textarea class="form-control" id="description" name="description" placeholder="Description of category"><%- data.books[0].description%></textarea>
+                              </div>
+                            </div>
+                            
+                            
+                            <!-- Button -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for=""></label>
+                                <div class="col-md-4">
+                                <button type="submit" name="" class="btn btn-primary ">Save</button>
+                                </div>
+                                
+                            </div>
+                            </fieldset>
+                            </form>
+                            <%}%>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+        <script type="text/javascript" src="/static_admin/assets/js/category.js"></script>
+		<!--footer-->
+        <%- include layouts/footer%>

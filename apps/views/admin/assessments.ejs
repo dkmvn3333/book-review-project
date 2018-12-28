@@ -57,25 +57,33 @@
                             <table class="table table-striped table-bordred">
                                 <thead>
                                     <th>ID</th>
-                                    <th>Poster</th>
+                                    <th>Tên sách</th>
                                     <th>Title</th>
-                                    <th>Content</th>
-                                    <th>Book</th>
-                                    <th></th>
+                                    <th>Người đăng</th>
+                                    <th>Đánh giá</th>
+                                    <th>Trạng thái</th>
                                 </thead>
                                 <tbody>
+                                        <% if(data && data.assessments){%>
+                                            <%data.assessments.forEach(function(item){%>
                                     <tr>
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>Checker</td>
-                                        <td>rice@gmail.com</td>
-                                        <td>Hue</td>
+                                        <td><%= item.book_review_id%></td>
+                                        <td><%= item.name_book%> </td>
+                                        <td><%= item.title%></td>
+                                        <td><%= item.user_id%></td>
+                                        <td><%= item.rate%></td>
                                         <td>
-                                            <a href="" class="btn btn-primary btn-xs" ><span class="ti-pencil"></span></a>
-                                            <a href="" class="btn btn-danger btn-xs" ><span class="ti-trash"></span></a>
+                                            <%if(item.book_id!=0){%>
+                                                <div class="material-switch">
+                                                    <input class="checkbox_btn" id="checkbox<%= item.book_review_id%>" assessment_id="<%= item.book_review_id%>" name="someSwitchOption001" type="checkbox" <% if(item.status!=0){%>checked <%} %> value="<%= item.status%>"/>
+                                                    <label for="checkbox<%= item.book_review_id%>" class="label-success"></label>
+                                                </div>
+                                            <%}%>
+                                            <%if(item.book_id==0){%><a href="/admin/books/add/<%= item.book_review_id%>"><button class="creat_btn" style="margin-left:5px;" class="orange" assessment_id="<%= item.book_review_id%>">Create Book!</button></a> <%}%>
                                         </td>    
                                     </tr>
-                                    
+                                    <%})%>
+                                    <%}%>
                                 </tbody>
                             </table>
 
@@ -98,6 +106,7 @@
         
     </div>
 
+        <script type="text/javascript" src="/static_admin/assets/js/assessment.js"></script>
         
 		<!--footer-->
         <%- include layouts/footer%>

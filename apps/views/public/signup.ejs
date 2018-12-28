@@ -19,23 +19,25 @@
         
         <!-- Main content -->
                 
-                <form enctype="multipart/form-data" id="login-form" class="login" method='post' action="/signup" novalidate=''>
+                <form enctype="multipart/form-data" class="login" method='post' action="/signup" novalidate=''>
+                
                     <% if(data && data.error){%>
-                        <div class="alert alert-warning alert-dismissible show" role="alert">
-                                <strong><%=data.error%></strong>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div> 
+                        <div class="alert alert-danger">
+                            <span class='icon-warning'></span>
+                            <%=data.error%>
+                            <a class="close" data-dismiss="alert" href="#" aria-hidden="true"></a>
+                        </div>
                     <%}%>
+
+
                     <% if(data && data.msg){%>
-                        <div class="alert alert-success alert-dismissible show" role="alert">
-                                <strong><%=data.msg%></strong>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div> 
+                        <div class="alert alert-success">
+                            <span class='icon-flag'></span>
+                            <%=data.msg%>
+                            <a class="close" data-dismiss="alert" href="#" aria-hidden="true"></a>
+                        </div>
                     <%}%>
+
                     <p class="login__title">sign up <br><span class="login-edition">welcome to R.VELO</span></p>
 
                     <div class="social social--colored">
@@ -49,12 +51,11 @@
                     <div class="field-wrap">
                             <% if(data && data.errors){%>
                             <%data.errors.forEach(function(item){%>
-                                <div class="alert alert-warning alert-dismissible show" role="alert">
-                                        <strong><%= item.msg%></strong>
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div> 
+                                <div class="alert alert-info">
+                                    <span class='icon-info'></span>
+                                    <%= item.msg%>
+                                    <a class="close" data-dismiss="alert" href="#" aria-hidden="true"></a>
+                                </div>
                             <%})%>
                             <%}%>
                             

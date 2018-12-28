@@ -17,6 +17,24 @@ function addUser(user){
     }
     return false;
 }
+function updateUser(user){
+
+    if(user){
+        var defer = q.defer();
+         pool.query('UPDATE user SET name = ?, address = ?, contact = ?, about=? WHERE user_id= ?', [user.name, user.address, user.contact, user.about, user.user_id], function(err, result){           
+        //  pool.query(`UPDATE category SET name = '${c.name}', discription=${c.discription}, category_image=${c.category_image}  where category_id = ${c.category_id}`, function(err, result){
+            if(err){
+                console.log("error");
+                defer.reject(err);
+            }else{
+                console.log("success");
+                defer.resolve(result);
+            }
+        });
+    return defer.promise;
+    }
+    return false;
+}
 function getUserByEmail(email){
     if(email){
         var defer = q.defer();
@@ -48,5 +66,6 @@ function getUserByEmailOfAdmin(email){
 module.exports = {
     addUser: addUser,
     getUserByEmail:getUserByEmail,
-    getUserByEmailOfAdmin:getUserByEmailOfAdmin
+    getUserByEmailOfAdmin:getUserByEmailOfAdmin,
+    updateUser:updateUser
 };

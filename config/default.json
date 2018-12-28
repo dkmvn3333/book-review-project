@@ -6,7 +6,7 @@
     "mysql":{
         "host" : "localhost",
         "port" : "3306",
-        "database" : "review_book",
+        "database" : "review_book_final",
         "user" :"root",
         "password" : "190996"
     },

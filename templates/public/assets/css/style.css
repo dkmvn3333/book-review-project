@@ -6004,7 +6004,7 @@ ul#navigation li.mega-menu__nav-item:hover:before {
   min-height: 110px;
 }
 .contact-form-wrapper {
-  background-color: #ffd564;
+  background-color: #ccc7b92b;
   overflow: hidden;
   margin: 76px 0;
   padding: 56px 0 60px;
@@ -9972,4 +9972,9 @@ ul#navigation li.mega-menu__nav-item:hover:before {
   .post--preview .post__image {
     width: 100%;
   }
+}
+
+.info-book {
+  display: block;
+  width: 100%;
 }

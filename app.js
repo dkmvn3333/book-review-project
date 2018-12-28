@@ -53,6 +53,8 @@ app.use(expressValidator({
 app.use(require('connect-flash')());
 app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
+  res.locals.user = req.session.user;
+  res.locals.user_public = req.session.user_public;
   next();
 });
 

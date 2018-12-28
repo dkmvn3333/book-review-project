@@ -6,7 +6,7 @@
                         <ul>
 
                             <li data-transition="fade" data-slotamount="7" class="slide" data-slide='Rush.'>
-                                <img alt='' src="http://placehold.it/1920x616">
+                                <img class="img-responsive" alt='' width="1400px" height="600px" src="../uploads/1920x616.jpg">
                                 <div class="caption slide__name margin-slider" 
                                      data-x="right" 
                                      data-y="80" 
@@ -127,7 +127,7 @@
 
                             <li data-transition="fade" data-slotamount="7" class="slide fading-slide" data-slide='Travel worldwide.
 Create trip film.'>
-                                <img alt='' src="http://placehold.it/1920x616">
+                                <img alt='' src="../uploads/1920x616.jpg">
                                  <div class="caption slide__video" data-x="0" data-y="0" data-autoplay='true'>
                                    <video class="media-element"  autoplay="autoplay" preload='none' loop="loop" muted="" src="video/53170154.mp4" >
                                         <source type="video/webm" src="video/53170154.webm">
@@ -295,102 +295,26 @@ Start doing.'>
             <div class="movie-best">
                  <div class="col-sm-10 col-sm-offset-1 movie-best__rating">Today Best choice</div>
                  <div class="col-sm-12 change--col">
+                        <% if(data && data.books_best){%>
+                            <%data.books_best.forEach(function(item){%>
                      <div class="movie-beta__item ">
-                        <img alt='' src="http://placehold.it/380x600">
-                         <span class="best-rate">5.0</span>
+                        <img height="273px" alt='' src="../uploads/<%= item.image%>" class="img-responsive" />
+                         <span class="best-rate"><%= item.rate%></span>
 
-                         <ul class="movie-beta__info">
-                             <li><span class="best-voted">71 people voted today</span></li>
+                         <ul class="movie-beta__info info-book">
+                             <li><span class="best-voted"><%= item.name_book%></span></li>
                              <li>
-                                <p class="movie__time">169 min</p>
-                                <p>Adventure | Drama | Fantasy </p>
+                                <p class="movie__time"><%= item.pages%> trang</p>
+                                <p><%=item.author%></p>
                                 <p>38 comments</p>
                              </li>
                              <li class="last-block">
-                                 <a href="movie-page-left.html" class="slide__link">more</a>
+                                 <a href="/detail_book/<%=item.book_id%>" class="slide__link">more</a>
                              </li>
                          </ul>
                      </div>
-                     <div class="movie-beta__item second--item">
-                         <img alt='' src="http://placehold.it/380x600">
-                         <span class="best-rate">5.0</span>
-
-                         <ul class="movie-beta__info">
-                             <li><span class="best-voted">71 people voted today</span></li>
-                             <li>
-                                <p class="movie__time">169 min</p>
-                                <p>Adventure | Drama | Fantasy </p>
-                                <p>38 comments</p>
-                             </li>
-                             <li class="last-block">
-                                 <a href="movie-page-left.html" class="slide__link">more</a>
-                             </li>
-                         </ul>
-                     </div>
-                     <div class="movie-beta__item third--item">
-                         <img alt='' src="http://placehold.it/380x600">
-                         <span class="best-rate">5.0</span>
-
-                         <ul class="movie-beta__info">
-                             <li><span class="best-voted">71 people voted today</span></li>
-                             <li>
-                                <p class="movie__time">169 min</p>
-                                <p>Adventure | Drama | Fantasy </p>
-                                <p>38 comments</p>
-                             </li>
-                             <li class="last-block">
-                                 <a href="movie-page-left.html" class="slide__link">more</a>
-                             </li>
-                         </ul>
-                     </div>
-                     <div class="movie-beta__item hidden-xs">
-                         <img alt='' src="http://placehold.it/380x600">
-                         <span class="best-rate">5.0</span>
-
-                         <ul class="movie-beta__info">
-                             <li><span class="best-voted">71 people voted today</span></li>
-                             <li>
-                                <p class="movie__time">169 min</p>
-                                <p>Adventure | Drama | Fantasy </p>
-                                <p>38 comments</p>
-                             </li>
-                             <li class="last-block">
-                                 <a href="movie-page-left.html" class="slide__link">more</a>
-                             </li>
-                         </ul>
-                     </div>
-                     <div class="movie-beta__item hidden-xs hidden-sm">
-                         <img alt='' src="http://placehold.it/380x600">
-                         <span class="best-rate">5.0</span>
-
-                         <ul class="movie-beta__info">
-                             <li><span class="best-voted">71 people voted today</span></li>
-                             <li>
-                                <p class="movie__time">169 min</p>
-                                <p>Adventure | Drama | Fantasy </p>
-                                <p>38 comments</p>
-                             </li>
-                             <li class="last-block">
-                                 <a href="movie-page-left.html" class="slide__link">more</a>
-                             </li>
-                         </ul>
-                     </div>
-                     <div class="movie-beta__item hidden-xs hidden-sm">
-                         <img alt='' src="http://placehold.it/380x600">
-                         <span class="best-rate">5.0</span>
-
-                         <ul class="movie-beta__info">
-                             <li><span class="best-voted">71 people voted today</span></li>
-                             <li>
-                                <p class="movie__time">169 min</p>
-                                <p>Adventure | Drama | Fantasy </p>
-                                <p>38 comments</p>
-                             </li>
-                             <li class="last-block">
-                                 <a href="movie-page-left.html" class="slide__link">more</a>
-                             </li>
-                         </ul>
-                     </div>
+                     <%})%>
+                     <%}%>
                  </div>
                 <div class="col-sm-10 col-sm-offset-1 movie-best__check">check all movies now playing</div>
             </div>
@@ -513,189 +437,51 @@ Start doing.'>
                 <div class="row">
                     <div class="col-sm-8 col-md-9">
                         <!-- Movie variant with time -->
-                            <div class="movie movie--test movie--test--dark movie--test--left">
+                        <% if(data && data.books){ var i =0;%>
+                            <%for(var j=0; j<data.books.length; j++){
+                                if(j!=0 && data.books[j].book_id==data.books[j-1].book_id)continue;
+                                i++;    
+                            %>
+                            <div class="movie movie--test  <%if(i%4==1){%>movie--test--dark movie--test--left<%}else if(i%4==2){%>movie--test--light movie--test--left<%}else if(i%4==3){%>movie--test--light movie--test--right<%}else if(i%4==0){%>movie--test--dark movie--test--right<%}%>">
                                 <div class="movie__images">
-                                    <a href="movie-page-left.html" class="movie-beta__link">
-                                        <img alt='' src="http://placehold.it/424x424">
+                                    <a href="/detail_book/<%=data.books[j].book_id%>" class="movie-beta__link">
+                                        <img height="211px" alt='' src="../uploads/<%=data.books[j].image%>">
                                     </a>
                                 </div>
 
                                 <div class="movie__info">
-                                    <a href='movie-page-left.html' class="movie__title">Gravity (2013)  </a>
+                                    <a href='/detail_book/<%=data.books[j].book_id%>' class="movie__title"><%=data.books[j].name_book%></a>
 
-                                    <p class="movie__time">91 min</p>
+                                    <p class="movie__time"><%=data.books[j].pages%> trang</p>
 
-                                    <p class="movie__option"><a href="#">Sci-Fi</a> | <a href="#">Thriller</a> | <a href="#">Drama</a></p>
-                                    
+                                    <p class="movie__option"><a href="#"><strong>Author: </strong> <%=data.books[j].author%></a></p>
+
+                                    <p class="movie__option"><strong>Category: </strong>
+
+                                        <a href="#"><%=data.books[j].name%></a>
+                                        <%for(var k=j+1;k<data.books.length;k++){
+                                            if(data.books[j].book_id== data.books[k].book_id){
+                                                %>
+                                                <a href="#">|<%=data.books[k].name%></a>
+                                                <%
+                                            }
+                                        } 
+                                        %>
+                                            
+                                    </p>
+
                                     <div class="movie__rate">
-                                        <div class="score"></div>
-                                        <span class="movie__rating">4.1</span>
+                                        <% if(user_public!=null){%>
+                                        <div class="score_index" id="<%=data.books[j].book_id%>" ></div>
+                                        <%}%>
+                                        <span id="rate<%=data.books[j].book_id%>" class="movie__rating"><%=data.books[j].rate%></span>
                                     </div>               
                                 </div>
                             </div>
                          <!-- Movie variant with time -->
-
-                         <!-- Movie variant with time -->
-                            <div class="movie movie--test movie--test--light movie--test--left">
-                                <div class="movie__images">
-                                    <a href="movie-page-left.html" class="movie-beta__link">
-                                    <img alt='' src="http://placehold.it/424x424">
-                                    </a>
-                                </div>
-
-                                <div class="movie__info">
-                                    <a href='movie-page-left.html' class="movie__title">The Hobbit: The Desolation of Smaug (2013)  </a>
-
-                                    <p class="movie__time">169 min</p>
-
-                                    <p class="movie__option"><a href="#">Adventure</a> | <a href="#">Fantasy</a> | <a href="#">Drama</a></p>
-                                    
-                                    <div class="movie__rate">
-                                        <div class="score"></div>
-                                        <span class="movie__rating">5.0</span>
-                                    </div>               
-                                </div>
-                            </div>
-                         <!-- Movie variant with time -->
-
-                         <!-- Movie variant with time -->
-                            <div class="movie movie--test movie--test--light movie--test--right">
-                                <div class="movie__images">
-                                    <a href="movie-page-left.html" class="movie-beta__link">
-                                    <img alt='' src="http://placehold.it/424x424">
-                                    </a>
-                                </div>
-
-                                <div class="movie__info">
-                                    <a href='movie-page-left.html' class="movie__title">The Hunger Games: Catching Fire (2013)   </a>
-
-                                    <p class="movie__time">146 min</p>
-
-                                    <p class="movie__option"><a href="#">Action</a> | <a href="#">Adventure</a> | <a href="#">Sci-Fi</a></p>
-                                    
-                                    <div class="movie__rate">
-                                        <div class="score"></div>
-                                        <span class="movie__rating">4.9</span>
-                                    </div>               
-                                </div>
-                            </div>
-                         <!-- Movie variant with time -->
-
-                         <!-- Movie variant with time -->
-                            <div class="movie movie--test movie--test--dark movie--test--right">
-                                <div class="movie__images">
-                                    <a href="movie-page-left.html" class="movie-beta__link">
-                                    <img alt='' src="http://placehold.it/424x424">
-                                    </a>
-                                </div>
-
-                                <div class="movie__info">
-                                    <a href='movie-page-left.html' class="movie__title">Thor: The Dark World (2013) </a>
-
-                                    <p class="movie__time">112 min</p>
-
-                                    <p class="movie__option"><a href="#">Action</a> | <a href="#">Adventure</a> | <a href="#">Fantasy</a></p>
-                                    
-                                    <div class="movie__rate">
-                                        <div class="score"></div>
-                                        <span class="movie__rating">5.0</span>
-                                    </div>               
-                                </div>
-                            </div>
-                         <!-- Movie variant with time -->
-
-                         <!-- Movie variant with time -->
-                            <div class="movie movie--test movie--test--dark movie--test--left">
-                                <div class="movie__images">
-                                    <a href="movie-page-left.html" class="movie-beta__link">
-                                    <img alt='' src="http://placehold.it/424x424">
-                                    </a>
-                                </div>
-
-                                <div class="movie__info">
-                                    <a href='movie-page-left.html' class="movie__title">World War Z (2013)  </a>
-
-                                    <p class="movie__time">116 min</p>
-
-                                    <p class="movie__option"><a href="#">Action</a> | <a href="#">Adventure</a> | <a href="#">Horror</a></p>
-                                    
-                                    <div class="movie__rate">
-                                        <div class="score"></div>
-                                        <span class="movie__rating">4.1</span>
-                                    </div>               
-                                </div>
-                            </div>
-                         <!-- Movie variant with time -->
-
-                         <!-- Movie variant with time -->
-                            <div class="movie movie--test movie--test--light movie--test--left">
-                                <div class="movie__images">
-                                    <a href="movie-page-left.html" class="movie-beta__link">
-                                    <img alt='' src="http://placehold.it/424x424">
-                                    </a>
-                                </div>
-
-                                <div class="movie__info">
-                                    <a href='movie-page-left.html' class="movie__title">Prisoners (2013) </a>
-
-                                    <p class="movie__time">153 min</p>
-
-                                    <p class="movie__option"><a href="#">Crime</a> | <a href="#">Thriller</a> | <a href="#">Drama</a></p>
-                                    
-                                    <div class="movie__rate">
-                                        <div class="score"></div>
-                                        <span class="movie__rating">5.0</span>
-                                    </div>               
-                                </div>
-                            </div>
-                         <!-- Movie variant with time -->
-
-                         <!-- Movie variant with time -->
-                            <div class="movie movie--test movie--test--light movie--test--right">
-                                <div class="movie__images">
-                                    <a href="movie-page-left.html" class="movie-beta__link">
-                                    <img alt='' src="http://placehold.it/424x424">
-                                    </a>
-                                </div>
-
-                                <div class="movie__info">
-                                    <a href='movie-page-left.html' class="movie__title">This Is the End (2013)   </a>
-
-                                    <p class="movie__time">107 min</p>
-
-                                    <p class="movie__option"><a href="#">Comedy</a> | <a href="#">Fantasy</a></p>
-                                    
-                                    <div class="movie__rate">
-                                        <div class="score"></div>
-                                        <span class="movie__rating">4.9</span>
-                                    </div>               
-                                </div>
-                            </div>
-                         <!-- Movie variant with time -->
-
-                         <!-- Movie variant with time -->
-                            <div class="movie movie--test movie--test--dark movie--test--right">
-                                <div class="movie__images">
-                                    <a href="movie-page-left.html" class="movie-beta__link">
-                                    <img alt='' src="http://placehold.it/424x424">
-                                    </a>
-                                </div>
-
-                                <div class="movie__info">
-                                    <a href='movie-page-left.html' class="movie__title">The Internship (2013)  </a>
-
-                                    <p class="movie__time">112 min</p>
-
-                                    <p class="movie__option"><a href="#">Comedy</a></p>
-                                    
-                                    <div class="movie__rate">
-                                        <div class="score"></div>
-                                        <span class="movie__rating">5.0</span>
-                                    </div>               
-                                </div>
-                            </div>
-                         <!-- Movie variant with time -->
-
+                        
+                         <%}%>
+                         <%}%>
 
                         <div class="row">
                             <div class="social-group">

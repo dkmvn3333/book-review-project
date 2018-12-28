@@ -53,6 +53,7 @@ function Category(){
             var category_id = $(this).attr("category_id");
             var base_url = location.protocol+"//"+ document.domain +":"+location.port;
              alert(category_id);
+             $(this).closest('tr').remove();
             $.ajax({
                 url: base_url+ "/admin/categories/delete",
                 type: "DELETE",
@@ -70,10 +71,9 @@ function Category(){
                                  timer: 2000
                               });
                         }, 3000);
-                        location.reload();
                     }
                         
-                        // window.location.replace("/admin/categories");
+                    // window.location.replace("/admin/categories");
                     // }else if(res && res.status_code ==500){
                     //     $.notify({
                     //         icon: 'ti-gift',

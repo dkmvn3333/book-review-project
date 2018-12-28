@@ -59,7 +59,7 @@
                                     <tr>
                                         <td><img src="../uploads/<%=item.category_image%>" class="image_admin" /></td>
                                         <td><%= item.name%></td>
-                                        <td><%= item.discription%></td>
+                                        <td><%- item.discription%></td>
                                         <td>
                                             <a href="/admin/categories/edit/<%= item.category_id%>" class="btn btn-primary btn-xs" ><span class="ti-pencil"></span></a>
                                             <a href="#" class="btn btn-danger btn-xs category_delete" category_id="<%= item.category_id%>" ><span class="ti-trash"></span></a>
