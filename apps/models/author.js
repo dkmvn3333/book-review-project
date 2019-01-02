@@ -3,10 +3,10 @@ var config = require("config");
 var db = require("../commom/database");
 var pool = db.pool;
 
-function addCategory(category){
-    if(category){
+function addAuthor(author){
+    if(author){
         var defer = q.defer();
-        pool.query('INSERT INTO category SET ?', category, function(err, result){
+        pool.query('INSERT INTO author SET ?', author, function(err, result){
             if(err){
                 defer.reject(err);
             }else{
@@ -17,9 +17,9 @@ function addCategory(category){
     }
     return false;
 }
-function getAllCategories(){
+function getAllAuthors(){
     var defer = q.defer();
-            pool.query('SELECT * FROM category ', function(err, posts){           
+            pool.query('SELECT * FROM author ', function(err, posts){           
             if(err){
                 defer.reject(err);
             }else{
@@ -28,9 +28,9 @@ function getAllCategories(){
         });
         return defer.promise;
 }
-function getCategoriesByID(category_id){
+function getAuthorsByID(author_id){
     var defer = q.defer();
-            pool.query('SELECT * FROM category WHERE ?', {category_id:category_id}, function(err, posts){           
+            pool.query('SELECT * FROM author WHERE ?', {author_id:author_id}, function(err, posts){           
             if(err){
                 defer.reject(err);
             }else{
@@ -39,13 +39,11 @@ function getCategoriesByID(category_id){
         });
         return defer.promise;
 }
-
-function updateCategory(c){
-
+function updateAuthor(c){
     if(c){
         var defer = q.defer();
-         pool.query('UPDATE category SET name = ?, discription = ?, category_image = ? WHERE category_id= ?', [c.name, c.discription, c.category_image, c.category_id], function(err, result){           
-        //  pool.query(`UPDATE category SET name = '${c.name}', discription=${c.discription}, category_image=${c.category_image}  where category_id = ${c.category_id}`, function(err, result){
+         pool.query('UPDATE author SET name = ?, description = ? ,author_image = ? WHERE author_id= ?', [c.name, c.discription,c.birthday,c.nationnality , c.author_image, c.author_id], function(err, result){           
+        //  pool.query(`UPDATE author SET name = '${c.name}', discription=${c.discription}, author_image=${c.author_image}  where author_id = ${c.author_id}`, function(err, result){
             if(err){
                 console.log("error");
                 defer.reject(err);
@@ -58,11 +56,11 @@ function updateCategory(c){
     }
     return false;
 }
-function deleteCategory(category_id){
-    console.log("id"+category_id);
-    if(category_id){
+function deleteAuthor(author_id){
+    console.log("id"+author_id);
+    if(author_id){
         var defer = q.defer();
-         pool.query('DELETE FROM category WHERE ?',{category_id:category_id}, function(err, result){           
+         pool.query('DELETE FROM author WHERE ?',{author_id:author_id}, function(err, result){           
             if(err){
                 console.log("error");
                 defer.reject(err);
@@ -76,9 +74,9 @@ function deleteCategory(category_id){
     return false;
 }
 module.exports = {
-    addCategory: addCategory,
-    getAllCategories:getAllCategories,
-    getCategoriesByID: getCategoriesByID,
-    updateCategory: updateCategory,
-    deleteCategory: deleteCategory
+    addAuthor: addAuthor,
+    getAllAuthors: getAllAuthors,
+    getAuthorsByID: getAuthorsByID,
+    updateAuthor: updateAuthor,
+    deleteAuthor:deleteAuthor
 };

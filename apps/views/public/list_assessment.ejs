@@ -22,7 +22,7 @@
             <div class="overflow-wrapper">
                 <div class="col-sm-8 col-md-9">
                 
-                    <h2 class="page-heading">News</h2>
+                    <h2 class="page-heading">Bài viết</h2>
                     <% if(data && data.assessments){ var i =0;%>
                         <%data.assessments.forEach(function(item){ %>
                     <!-- News post article-->
@@ -32,21 +32,14 @@
                         </a>
 
                         <h1><a href="/detail_assessment/<%=item.book_review_id%>" class="post__title-link"><%=item.name_book%> | <%=item.title%></a></h1>
-                        <p class="post__date">29 October 2013 </p>
-
-                        <div class="wave-devider"></div>
-
-                        
-
+                        <p class="post__date"><%=item.date_post%> </p>
                         <div class="tags">
-                                <ul>
-                                    <li class="item-wrap"><a href="#" class="tags__item">news</a></li>
-                                    <li class="item-wrap"><a href="#" class="tags__item">movie</a></li>
-                                    <li class="item-wrap"><a href="#" class="tags__item">ceremony</a></li>
-                                    <li class="item-wrap"><a href="#" class="tags__item">award</a></li>
+                                <ul class="list line--marker">
+                                    <li class="item-wrap"><a href="#" class="tags__item"><%=item.name%></a></li>
                                 </ul>
                         </div>
-
+                        <div class="wave-devider"></div>
+                        
                         <div class="devider-huge"></div>
                     </article> 
                     <!-- end news post article-->
@@ -56,11 +49,26 @@
 
                     
 
-                    <div class="pagination">
-                        <a href='#' class="pagination__prev">prev</a>
-                        <a href='#' class="pagination__next">next</a>
-                    </div>
-
+                    <div class="coloum-wrapper">
+                            <div class="pagination paginatioon--full">
+                                    <%
+                                        if(data.page!=1){
+                                            %>
+                                            <a href='/list_assessment/<%=data.id%>&<%=data.page -1%>' class="pagination__prev">prev</a>
+                                            <%
+                                        }
+                                    %>
+                                    <%
+                                        if(data.page!=data.length_page && data.assessments.length!=0 && data.length_page!=0){
+                                            %>
+                                            <a href='/list_assessment/<%=data.id%>&<%=data.page -(-1)%>' class="pagination__next">next</a>
+                                            <%
+                                        }
+                                    %>
+                                    
+                                    
+                            </div>
+                        </div>
                 </div>
         
                 <%- include layouts/right-bar%>

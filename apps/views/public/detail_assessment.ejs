@@ -43,7 +43,7 @@
 
                     <h1><%=data.assessment.title%></h1>
                     <p class="post__date">29 October 2013 </p>
-
+                    <p>Người viết <strong><%=data.assessment.name%></strong></p>
                     <div class="wave-devider"></div>
 
                     <div class="col-sm-12 col-md-6">
@@ -137,86 +137,91 @@
                 <h2 class="page-heading">comments (15)</h2>
 
                 <div class="comment-wrapper">
-                    <form id="comment-form" class="comment-form" method='post'>
-                        <textarea class="comment-form__text" placeholder='Add you comment here'></textarea>
+                    <%
+                    if(user_public==null){
+                    %>
+                    <a href="#" class="btn btn-md btn--warning btn--book btn-control--home login-window">Đăng nhập để bình luận</a>
+                    <%
+                    }else{
+                    %>
+                    <input id="user_id" type="hidden" value="<%=user_public.user_id%>" >
+                    <%if(data && data.assessment){%>
+                    <input id="book_review_id" type="hidden" value="<%=data.assessment.book_review_id%>" >
+                    <%}%>
+                    <form id="comment-form" class="comment-form" >
+                        <input type="text" class="comment-form__text comment-content"  placeholder='Add you comment here'>
                         <label class="comment-form__info">250 characters left</label>
-                        <button type='submit' class="btn btn-md btn--danger comment-form__btn">add comment</button>
+                        <button type='button' parent_id="0" class="btn btn-md btn--danger comment-form__btn btn-comment" >add comment</button>
                     </form>
+                    <%}%>
 
+                    
                     <div class="comment-sets">
-
+                            <% if(data && data.comments){ var i =0;%>
+                                <%data.comments.forEach(function(item){  %>
+                                    <% if(item.parent_id!=0){%>
+                                        <%return;%>
+                                        <%}%>
                         <div class="comment">
                             <div class="comment__images">
                                 <img alt='' src="http://placehold.it/50x50">
                             </div>
 
-                            <a href='#' class="comment__author"><span class="social-used fa fa-facebook"></span>Roberta Inetti</a>
-                            <p class="comment__date">today | 03:04</p>
-                            <p class="comment__message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae enim sollicitudin, euismod erat id, fringilla lacus. Cras ut rutrum lectus. Etiam ante justo, volutpat at viverra a, mattis in velit. Morbi molestie rhoncus enim, vitae sagittis dolor tristique et.</p>
-                            <a href='#' class="comment__reply">Reply</a>
+                            <a href='#' class="comment__author"><span class="social-used fa fa-vk"></span><%=item.name%></a>
+                            <p class="comment__date"><%=item.date%></p>
+                            <p class="comment__message"><%=item.content_comment%></p>
+                            <a href='#' class="comment__reply" parent_id="<%=item.comment_id%>">Reply</a>
                         </div>
-
-                        <div class="comment">
-                            <div class="comment__images">
-                                <img alt='' src="http://placehold.it/50x50">
-                            </div>
-
-                            <a href='#' class="comment__author"><span class="social-used fa fa-vk"></span>Olia Gozha</a>
-                            <p class="comment__date">22.10.2013 | 14:40</p>
-                            <p class="comment__message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae enim sollicitudin, euismod erat id, fringilla lacus. Cras ut rutrum lectus. Etiam ante justo, volutpat at viverra a, mattis in velit. Morbi molestie rhoncus enim, vitae sagittis dolor tristique et.</p>
-                            <a href='#' class="comment__reply">Reply</a>
-                        </div>
-
-                        <div class="comment comment--answer">
-                            <div class="comment__images">
-                                <img alt='' src="http://placehold.it/50x50">
-                            </div>
-
-                            <a href='#' class="comment__author"><span class="social-used fa fa-vk"></span>Dmitriy Pustovalov</a>
-                            <p class="comment__date">today | 10:19</p>
-                            <p class="comment__message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae enim sollicitudin, euismod erat id, fringilla lacus. Cras ut rutrum lectus. Etiam ante justo, volutpat at viverra a, mattis in velit. Morbi molestie rhoncus enim, vitae sagittis dolor tristique et.</p>
-                            <a href='#' class="comment__reply">Reply</a>
-                        </div>
-
-                        <div class="comment comment--last">
-                            <div class="comment__images">
-                                <img alt='' src="http://placehold.it/50x50">
-                            </div>
-
-                            <a href='#' class="comment__author"><span class="social-used fa fa-facebook"></span>Sia Andrews</a>
-                            <p class="comment__date"> 22.10.2013 | 12:31 </p>
-                            <p class="comment__message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae enim sollicitudin, euismod erat id, fringilla lacus. Cras ut rutrum lectus. Etiam ante justo, volutpat at viverra a, mattis in velit. Morbi molestie rhoncus enim, vitae sagittis dolor tristique et.</p>
-                            <a href='#' class="comment__reply">Reply</a>
-                        </div>
-
-                        <div id='hide-comments' class="hide-comments">
-                            <div class="comment">
-                                <div class="comment__images">
-                                    <img alt='' src="http://placehold.it/50x50">
-                                </div>
-
-                                <a href='#' class="comment__author"><span class="social-used fa fa-facebook"></span>Roberta Inetti</a>
-                                <p class="comment__date">today | 03:04</p>
-                                <p class="comment__message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae enim sollicitudin, euismod erat id, fringilla lacus. Cras ut rutrum lectus. Etiam ante justo, volutpat at viverra a, mattis in velit. Morbi molestie rhoncus enim, vitae sagittis dolor tristique et.</p>
-                                <a href='#' class="comment__reply">Reply</a>
-                            </div>
-
-                            <div class="comment">
-                                <div class="comment__images">
-                                    <img alt='' src="http://placehold.it/50x50">
-                                </div>
-
-                                <a href='#' class="comment__author"><span class="social-used fa fa-vk"></span>Olia Gozha</a>
-                                <p class="comment__date">22.10.2013 | 14:40</p>
-                                <p class="comment__message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae enim sollicitudin, euismod erat id, fringilla lacus. Cras ut rutrum lectus. Etiam ante justo, volutpat at viverra a, mattis in velit. Morbi molestie rhoncus enim, vitae sagittis dolor tristique et.</p>
-                                <a href='#' class="comment__reply">Reply</a>
-                            </div>
-                        </div>
-
+                            <%data.comments.forEach(function(item2){  %>
+                                <%if(item2.parent_id==item.comment_id){%>
+                                    <div class="comment comment--answer">
+                                        <div class="comment__images">
+                                            <img alt='' src="http://placehold.it/50x50">
+                                        </div>
+            
+                                        <a href='#' class="comment__author"><span class="social-used fa fa-vk"></span><%=item2.name%></a>
+                                        <p class="comment__date"><%=item2.date%></p>
+                                        <p class="comment__message"><%=item2.content_comment%></p>
+                                        <a href='#' class="comment__reply" parent_id="<%=item.comment_id%>">Reply</a>
+                                    </div>
+                                <%}%>
+                            <%})%>
+                        <%})%>
+                        <%}%>
                         <div class="comment-more">
                             <a href="#" class="watchlist">Show more comments</a>
                         </div>
-
+                        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('.btn-comment').on('click', commentFunction);
+                                        
+                                $('.comment').on('click', '.btn-reply', commentFunction);
+                                        
+                                function commentFunction(){
+                                                        alert("1");
+                                                        var content = $(this).parent().find(".comment-content").val().trim();
+                                                        // var content = tinymce.get("comment-content").getContent();
+                                                        alert(content);
+                                                        if(content==""){
+                                                            return;
+                                                        }
+                                                        var user_id = $("#user_id").val();
+                                                        var book_review_id = $("#book_review_id").val();
+                                                        var parent_id = $(this).attr("parent_id");  
+                                                        var base_url = location.protocol+"//"+ document.domain +":"+location.port;
+                                                        $.ajax({
+                                                            url: base_url+ "/comment",
+                                                            type: "PUT",
+                                                            data: {content:content,user_id: user_id, parent_id:parent_id,book_review_id: book_review_id },
+                                                            success: function(response){
+                                                                $(".comment-content").val("");
+                                                                $(".comment-sets").replaceWith(response);
+                                                            }
+                                                        })
+                                                }
+                            });
+                        </script>
                     </div>
                 </div>
             </div>

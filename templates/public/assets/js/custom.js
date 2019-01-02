@@ -72,508 +72,7 @@
             $('.overlay').removeClass('close');}, 500);
     });
 
-function init_Elements () {
-    "use strict";
 
-	//1. Accodions
-	//Init 2 type accordions
-        $('#accordion').collapse();
-        $('#accordion-dark').collapse();
-
-    //2. Dropdown
-    //select
-    $("#select-sort").selectbox({
-            onChange: function (val, inst) {
-
-                $(inst.input[0]).children().each(function(item){
-                    $(this).removeAttr('selected');
-                })
-                $(inst.input[0]).find('[value="'+val+'"]').attr('selected','selected');
-            }
-
-        });
-
-            
-
-    //3. Datapicker init
-    $( ".datepicker__input" ).datepicker({
-        showOtherMonths: true,
-        selectOtherMonths: true,
-        showAnim:"fade"
-    });
-
-    $(document).click(function(e) { 
-        var ele = $(e.target); 
-        if (!ele.hasClass("datepicker__input") && !ele.hasClass("ui-datepicker") && !ele.hasClass("ui-icon") && !$(ele).parent().parents(".ui-datepicker").length){
-             $(".datepicker__input").datepicker("hide");
-
-        }
-   });
-
-   //4. Tabs
-   //Init 2 type tabs
-    $('#hTab a').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-    });
-
-    $('#vTab a').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-    }); 
-
-    //5. Mega select with filters
-    //Mega select interaction
-            $('.mega-select__filter').click(function(e){
-                //prevent the default behaviour of the link
-                e.preventDefault();
-                $('.select__field').val('');
-   
-                $('.mega-select__filter').removeClass('filter--active');
-                $(this).addClass('filter--active');
-                
-                //get the data attribute of the clicked link(which is equal to value filter of our content
-                var filter = $(this).attr('data-filter');
-
-                //Filter buttoms
-                //show all the list items(this is needed to get the hidden ones shown)
-                $(".select__btn a").show();
-                
-                /*using the :not attribute and the filter class in it we are selecting
-                only the list items that don't have that class and hide them '*/
-                $('.select__btn a:not(.' + filter + ')').hide();
-
-                //Filter dropdown
-                //show all the list items(this is needed to get the hidden ones shown)
-                $(".select__group").removeClass("active-dropdown");
-                $(".select__group").show();
-                
-                /*using the :not attribute and the filter class in it we are selecting
-                only the list items that don't have that class and hide them '*/
-                $('.select__group.' + filter).addClass("active-dropdown");
-                $('.select__group:not(.' + filter + ')').hide();
-            });
-
-             $('.filter--active').trigger('click');
-                
-                
-            
-            $('.select__field').focus(function() {
-                $(this).parent().find('.active-dropdown').css("opacity", 1);
-            });
-
-            $('.select__field').blur(function() {
-                $(this).parent().find('.active-dropdown').css("opacity", 0);
-            });
-
-
-            $('.select__variant').click( function () {
-                var value = $(this).attr('data-value');
-
-                $('.select__field').val(value);
-            });
-
-    //6. Progressbar
-    		//Count function for progressbar
-    		function init_progressBar(duration) {
-                    $('.progress').each(function() {
-                        var value = $(this).find('.progress__bar').attr('data-level');
-                        var result = value + '%';
-                        if(duration) {
-                            $(this).find('.progress__current').animate({width : value + '%'}, duration);
-                        }
-                        else {
-                            $(this).find('.progress__current').css({'width' : value + '%'});
-                        }
-                        
-                    });
-            }
-
-            //inview progress bars
-            $('.progress').one('inview', function (event, visible) {
-                if (visible == true) {
-                      init_progressBar(2000);
-                }
-            });
-
-    //7. Dropdown for authorize button
-    		//user list option
-            $('.auth__show').click(function (e){
-                e.preventDefault();
-                $('.auth__function').toggleClass('open-function')
-            })
-
-            $('.btn--singin').click(function (e){
-                e.preventDefault();
-                $('.auth__function').toggleClass('open-function')
-            });
-
-}
-
-function init_Home() {
-    "use strict";
-
-	//1. Init revolution slider and add arrows behaviour
-				var api = $('.banner').revolution({
-                    delay:9000,
-                    startwidth:1170,
-                    startheight:500,
-             
-                     onHoverStop:"on",
-             
-                     hideArrowsOnMobile:"off",
-
-                     hideTimerBar:"on",
-                     hideThumbs:'0',
-             
-                     keyboardNavigation:"on",
-             
-                     navigationType:"none",
-                     navigationArrows:"solo",
-             
-                     soloArrowLeftHalign:"left",
-                     soloArrowLeftValign:"center",
-                     soloArrowLeftHOffset:0,
-                     soloArrowLeftVOffset:0,
-             
-                     soloArrowRightHalign:"right",
-                     soloArrowRightValign:"center",
-                     soloArrowRightHOffset:0,
-                     soloArrowRightVOffset:0,
-             
-             
-                     touchenabled:"on",
-                     swipe_velocity:"0.7",
-                     swipe_max_touches:"1",
-                     swipe_min_touches:"1",
-                     drag_block_vertical:"false",
-             
-             
-                     fullWidth:"off",
-                     forceFullWidth:"off",
-                     fullScreen:"off",
-             
-                  });
-
-                    api.bind("revolution.slide.onchange",function (e,data) {
-                         var slides = $('.banner .slide');
-                         var currentSlide= data.slideIndex;
-
-                         var nextSlide = slides.eq(currentSlide).attr('data-slide');
-                         var prevSlide = slides.eq(currentSlide-2).attr('data-slide');
-
-                         var lastSlide = slides.length;
-
-                         if(currentSlide == lastSlide) {
-                             var nextSlide = slides.eq(0).attr('data-slide');
-                         }
-
-                         //put onload value for slider navigation
-                        $('.tp-leftarrow').html( '<span class="slider__info">' + prevSlide + '</span>');
-                        $('.tp-rightarrow').html( '<span class="slider__info">' + nextSlide + '</span>');
-
-                    });
-
-	
-	//2. Dropdown for authorize button
-    		//user list option
-            $('.auth__show').click(function (e){
-                e.preventDefault();
-                $('.auth__function').toggleClass('open-function')
-            })
-
-            $('.btn--singin').click(function (e){
-                e.preventDefault();
-                $('.auth__function').toggleClass('open-function')
-            });
-
-    //3. Mega select with filters (and markers)
-    //Mega select interaction
-                    $('.mega-select__filter').click(function(e){
-                        //prevent the default behaviour of the link
-                        e.preventDefault();
-                        $('.select__field').val('');
-           
-                        $('.mega-select__filter').removeClass('filter--active');
-                        $(this).addClass('filter--active');
-                        
-                        //get the data attribute of the clicked link(which is equal to value filter of our content)
-                        var filter = $(this).attr('data-filter');
-
-                        //Filter buttons
-                        //show all the list items(this is needed to get the hidden ones shown)
-                        $(".select__btn a").show();
-                        $(".select__btn a").css('display', 'inline-block');
-                        
-                        /*using the :not attribute and the filter class in it we are selecting
-                        only the list items that don't have that class and hide them '*/
-                        $('.select__btn a:not(.' + filter + ')').hide();
-
-                        //Filter dropdown
-                        //show all the list items(this is needed to get the hidden ones shown)
-                        $(".select__group").removeClass("active-dropdown");
-                        $(".select__group").show();
-                        
-                        /*using the :not attribute and the filter class in it we are selecting
-                        only the list items that don't have that class and hide them '*/
-                        $('.select__group.' + filter).addClass("active-dropdown");
-                        $('.select__group:not(.' + filter + ')').hide();
-
-                        //Filter marker
-                        //show all the list items(this is needed to get the hidden ones shown)
-                        $(".marker-indecator").show();
-                        
-                        /*using the :not attribute and the filter class in it we are selecting
-                        only the list items that don't have that class and hide them '*/
-                        $('.marker-indecator:not(.' + filter + ')').hide();                        
-                    });
-
-                    $('.filter--active').trigger('click');
-                    $('.active-dropdown').css("z-index", '-1');
-            
-                    $('.select__field').focus(function() {
-                        $(this).parent().find('.active-dropdown').css("opacity", 1);
-                        $(this).parent().find('.active-dropdown').css("z-index", '50');
-                    });
-
-                    $('.select__field').blur(function() {
-                        $(this).parent().find('.active-dropdown').css("opacity", 0);
-                        $(this).parent().find('.active-dropdown').css("z-index", '-1');
-                    });
-
-                    $('.select__variant').click( function (e) {
-                        e.preventDefault();
-                        $(this).parent().find('.active-dropdown').css("z-index", '50');
-                        var value = $(this).attr('data-value');
-                        $('.select__field').val(value);
-                        $(this).parent().find('.active-dropdown').css("z-index", '-1');
-                    });
-
-                    $('body').click( function (e){
-                      console.log(e.target);
-                    })
-
-    //4. Rating scrore init
-    //Rating star
-    $('.score').raty({
-        width:130, 
-        score: 0,
-        path: '/static_public/assets/images/rate/',
-        starOff : 'star-off.svg',
-        starOn  : 'star-on.svg' 
-    });
-
-    //5. Scroll down navigation function
-    //scroll down
-    $('.movie-best__check').click(function (ev) {
-        ev.preventDefault();
-        $('html, body').stop().animate({'scrollTop': $('#target').offset().top-30}, 900, 'swing');
-    });
-}
-
-function init_CinemaList () {
-    "use strict";
-
-	//1. Dropdowns
-				//select
-                $(".select__sort").selectbox({
-                    onChange: function (val, inst) {
-
-                        $(inst.input[0]).children().each(function(item){
-                            $(this).removeAttr('selected');
-                        })
-                        $(inst.input[0]).find('[value="'+val+'"]').attr('selected','selected');
-                    }
-
-                });
-
-    //2. Sorting buy category
-                // sorting function
-                $('.tags__item').click(function (e) {
-                    //prevent the default behaviour of the link
-                    e.preventDefault();
-
-                        $('.tags__item').removeClass('item-active');
-                        $(this).addClass('item-active');
-
-                        var filter = $(this).attr('data-filter');
-
-                        //show all the list items(this is needed to get the hidden ones shown)
-                        $(".cinema-item").show();
-                        //hide advertazing and pagination block
-                        $('.adv-place').show();
-                        $('.pagination').show();
-                            
-                        /*using the :not attribute and the filter class in it we are selecting
-                            only the list items that don't have that class and hide them '*/
-                        if ( filter.toLowerCase()!=='all'){
-                            $('.cinema-item:not(.' + filter + ')').hide();
-                            //show advertazing and pagination block only on filter (all)
-                            $('.pagination').hide();
-                            $('.adv-place').hide();
-                            // fix grid position
-                            $('.row').css('clear','none');
-                        }
-                });
-}
-
-function init_Contact () {
-    "use strict";
-
-	//1. Fullscreen map init
-				//Init map
-                    var mapOptions = {
-                        scaleControl: true,
-                        center: new google.maps.LatLng(51.509708, -0.130539),
-                        zoom: 15,
-                        navigationControl: false,
-                        streetViewControl: false,
-                        mapTypeControl: false,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                    };
-                    var map = new google.maps.Map(document.getElementById('location-map'),mapOptions);
-                    var marker = new google.maps.Marker({
-                        map: map,
-                        position: map.getCenter() 
-                    });
-
-                    //Custome map style
-                    var map_style = [{stylers:[{saturation:-100},{gamma:3}]},{elementType:"labels.text.stroke",stylers:[{visibility:"off"}]},{featureType:"poi.business",elementType:"labels.text",stylers:[{visibility:"off"}]},{featureType:"poi.business",elementType:"labels.icon",stylers:[{visibility:"off"}]},{featureType:"poi.place_of_worship",elementType:"labels.text",stylers:[{visibility:"off"}]},{featureType:"poi.place_of_worship",elementType:"labels.icon",stylers:[{visibility:"off"}]},{featureType:"road",elementType:"geometry",stylers:[{visibility:"simplified"}]},{featureType:"water",stylers:[{visibility:"on"},{saturation:0},{gamma:2},{hue:"#aaaaaa"}]},{featureType:"administrative.neighborhood",elementType:"labels.text.fill",stylers:[{visibility:"off"}]},{featureType:"road.local",elementType:"labels.text",stylers:[{visibility:"off"}]},{featureType:"transit.station",elementType:"labels.icon",stylers:[{visibility:"off"}]}]
-
-                    //Then we use this data to create the styles.
-                    var styled_map = new google.maps.StyledMapType(map_style, {name: "Cusmome style"});
-
-                    map.mapTypes.set('map_styles', styled_map);
-                    map.setMapTypeId('map_styles');
-
-
-                    //=====================================
-
-                    // Maker
-
-                    //=====================================
-
-                    //Creates the information to go in the pop-up info box.
-                    var boxTextA = document.createElement("div");
-                    boxTextA.innerHTML = '<span class="pop_up_box_text">Leicester Sq, London, WC2H 7LP</span>';
-
-                    //Sets up the configuration options of the pop-up info box.
-                    var infoboxOptionsA = {
-                     content: boxTextA
-                     ,disableAutoPan: false
-                     ,maxWidth: 0
-                     ,pixelOffset: new google.maps.Size(30, -50)
-                     ,zIndex: null
-                     ,boxStyle: {
-                     background: "#4c4145"
-                     ,opacity: 1
-                     ,width: "300px"
-                     ,color: " #b4b1b2"
-                     ,fontSize:"13px"
-                     ,padding:'14px 20px 15px'
-                     }
-                     ,closeBoxMargin: "6px 2px 2px 2px"
-                     ,infoBoxClearance: new google.maps.Size(1, 1)
-                     ,closeBoxURL: "/static_public/assets/images/components/close.svg"
-                     ,isHidden: false
-                     ,pane: "floatPane"
-                     ,enableEventPropagation: false
-                    };
-
-                    
-                    //Creates the pop-up infobox for Glastonbury, adding the configuration options set above.
-                    var infoboxA = new InfoBox(infoboxOptionsA);
-
-
-                    //Add an 'event listener' to the Glastonbury map marker to listen out for when it is clicked.
-                    google.maps.event.addListener(marker, "click", function (e) {
-                     //Open the Glastonbury info box.
-                     infoboxA.open(map, this);
-                     //Sets the Glastonbury marker to be the center of the map.
-                     map.setCenter(marker.getPosition());
-                    });
-}
-
-
-function init_MovieList () {
-    "use strict";
-
-	//1. Dropdown init 
-				//select
-                $(".select__sort").selectbox({
-                    onChange: function (val, inst) {
-
-                        $(inst.input[0]).children().each(function(item){
-                            $(this).removeAttr('selected');
-                        })
-                        $(inst.input[0]).find('[value="'+val+'"]').attr('selected','selected');
-                    }
-
-                });
-
-    
-    //2. Datepicker init
-                $( ".datepicker__input" ).datepicker({
-                  showOtherMonths: true,
-                  selectOtherMonths: true,
-                  showAnim:"fade"
-                });
-
-                $(document).click(function(e) { 
-                    var ele = $(e.target); 
-                    if (!ele.hasClass("datepicker__input") && !ele.hasClass("ui-datepicker") && !ele.hasClass("ui-icon") && !$(ele).parent().parents(".ui-datepicker").length){
-                       $(".datepicker__input").datepicker("hide");
-                     }
-                });
-
-    //3. Rating scrore init
-    //Rating star
-    $('.score').raty({
-        width:130, 
-        score: 0,
-        path: '/static_public/assets/images/rate/',
-        starOff : 'star-off.svg',
-        starOn  : 'star-on.svg' 
-    });
-
-    //4. Sorting by category
-    			// sorting function
-                $('.tags__item').click(function (e) {
-                    //prevent the default behaviour of the link
-                    e.preventDefault();
-
-                        //active sorted item
-                        $('.tags__item').removeClass('item-active');
-                        $(this).addClass('item-active');
-
-                        var filter = $(this).attr('data-filter');
-
-                        //show all the list items(this is needed to get the hidden ones shown)
-                        $(".movie--preview").show();
-                        $('.pagination').show();
-                            
-                        /*using the :not attribute and the filter class in it we are selecting
-                            only the list items that don't have that class and hide them '*/
-                        if ( filter.toLowerCase()!=='all'){
-                            $('.movie--preview:not(.' + filter + ')').hide();
-                            //Show pagination on filter = all;
-                            $('.pagination').hide();
-                        }
-                });
-
-	//5. Toggle function for additional content
-				//toggle timetable show
-                $('.movie__show-btn').click(function (ev) {
-                    ev.preventDefault();
-
-                    $(this).parents('.movie--preview').find('.time-select').slideToggle(500);
-                });
-
-                $('.time-select__item').click(function (){
-                    $('.time-select__item').removeClass('active');
-                    $(this).addClass('active');
-                });
-}
 
 function init_MoviePage () {
     "use strict";
@@ -592,12 +91,7 @@ function init_MoviePage () {
         hints       : ['bad', 'poor', 'regular', 'good', 'gorgeous']
 
     });
-    $(".score > img").click(function(){
-        var score = $(this).attr("alt");     
-        $("#rate").val(score);
-        alert($("#rate").val());                                                // value of the
-        //save to database                                              star
-    });
+
     $('.score_index').raty({
         // readOnly: true,
         width:130, 
@@ -645,111 +139,205 @@ function init_MoviePage () {
         $(this).html('<span class="rates__done">Thanks for your vote!<span>');
         // var book_id = $(this).attr("book_id");  
         // alert(book_id);  
+    });
+
+    $(".score > img").click(function(e){
+        var score = $(this).attr("alt");
+        var rate = $("#rate").val(score);
+        alert(rate);
+        var book_id = e.target.parentNode.id;
+        var base_url = location.protocol+"//"+ document.domain +":"+location.port;
+            alert(score + " " + score);
+            $.ajax({
+                url: base_url+ "/admin/books/rate",
+                type: "PUT",
+                data: {score :score, book_id:book_id},
+                dataType:"json",
+                success: function(res){
+                    if(res && res.status_code ==200){
+                        // setTimeout(function(){
+                        $("#rate"+book_id).text(res.score.toFixed(2));   
+                        $("#number_rate"+book_id).text(res.number_rate+1);  
+                        // }, 3000);
+                    }
+                }    
+            })
+        //save to database                                              star
+    });
+    
+    $('.score').click(function () {       
+        $(this).children().hide();
+        $(this).html('<span class="rates__done">Thanks for your vote!<span>');
+        // var book_id = $(this).attr("book_id");  
+        // alert(book_id);  
+    });
+
+    $("#read-more-btn").click(function(){
+        var page = $("#page").val();
+        var base_url = location.protocol+"//"+ document.domain +":"+location.port;
+        $.ajax({
+            url: base_url+ "/read-more",
+            type: "PUT",
+            data: {page:page},
+            success: function(response){
+                $(".page-read-more").replaceWith(response);
+                $("#page").val(page-(-1));
+            }
+        })
     })
 
+    //6. Reply comment form
+    			// button more comments
+                $('#hide-comments').hide();
+
+                $('.comment-more').click(function (e) {
+                        e.preventDefault();
+                        $('#hide-comments').slideDown(400);
+                        $(this).hide();
+                })
+
+                  //reply comment function
+                  $('.comment__reply').click( function (e) {
+                        e.preventDefault();
+                        var parent_id = $(this).attr("parent_id");
+                        console.log(parent_id);
+                        
+                        $('.comment').find('.comment-form').remove();
+                        $(this).parent().append("<form id='comment-form' class='comment-form' >\
+                            <textarea class='comment-form__text comment-content' placeholder='Add you comment here'></textarea>\
+                            <label class='comment-form__info'>250 characters left</label>\
+                            <button type='button' user_id='1' parent_id='"+parent_id+"' class='btn btn-md btn--danger comment-form__btn btn-reply' >reply</button>\
+                        </form>");
+                  });
+
+
+// $('.btn-comment').on('click', commentFunction);
+
+// $('.comment').on('click', '.btn-reply', commentFunction);
+
+// function commentFunction(){
+//         var content = $(this).parent().find(".comment-content").val().trim();
+//         if(content==""){
+//             return;
+//         }
+//         var user_id = $("#user_id").val();
+//         var book_review_id = $("#book_review_id").val();
+//         var parent_id = $(this).attr("parent_id");  
+//         var base_url = location.protocol+"//"+ document.domain +":"+location.port;
+//         $.ajax({
+//             url: base_url+ "/comment",
+//             type: "PUT",
+//             data: {content:content,user_id: user_id, parent_id:parent_id,book_review_id: book_review_id },
+//             success: function(response){
+//                 $(".comment-content").val("");
+//                 $(".comment-sets").html(response);
+//             }
+//         })
+// }
+                  
     //2. Swiper slider
     //Media slider
                 //init employee sliders
-                var mySwiper = new Swiper('.swiper-container',{
-                    slidesPerView:4,
-                  });
+                // var mySwiper = new Swiper('.swiper-container',{
+                //     slidesPerView:4,
+                //   });
 
-                $('.swiper-slide-active').css({'marginLeft':'-1px'});
+                // $('.swiper-slide-active').css({'marginLeft':'-1px'});
 
-                //Media switch
-                $('.list--photo').click(function (e){
-                    e.preventDefault();
+                // //Media switch
+                // $('.list--photo').click(function (e){
+                //     e.preventDefault();
 
-                    var mediaFilter = $(this).attr('data-filter');
+                //     var mediaFilter = $(this).attr('data-filter');
 
-                    $('.swiper-slide').hide();
-                    $('.' + mediaFilter).show();
+                //     $('.swiper-slide').hide();
+                //     $('.' + mediaFilter).show();
 
-                    $('.swiper-wrapper').css('transform','translate3d(0px, 0px, 0px)')
-                    mySwiper.params.slideClass = mediaFilter;
+                //     $('.swiper-wrapper').css('transform','translate3d(0px, 0px, 0px)')
+                //     mySwiper.params.slideClass = mediaFilter;
          
-                    mySwiper.reInit();
-                    $('.swiper-slide-active').css({'marginLeft':'-1px'});
-                })
+                //     mySwiper.reInit();
+                //     $('.swiper-slide-active').css({'marginLeft':'-1px'});
+                // })
 
-                $('.list--video').click(function (e){
-                    e.preventDefault();
+                // $('.list--video').click(function (e){
+                //     e.preventDefault();
 
-                    var mediaFilter = $(this).attr('data-filter');
-                    $('.swiper-slide').hide();
-                    $('.' + mediaFilter).show();
+                //     var mediaFilter = $(this).attr('data-filter');
+                //     $('.swiper-slide').hide();
+                //     $('.' + mediaFilter).show();
 
-                    $('.swiper-wrapper').css('transform','translate3d(0px, 0px, 0px)')
-                    mySwiper.params.slideClass = mediaFilter;
+                //     $('.swiper-wrapper').css('transform','translate3d(0px, 0px, 0px)')
+                //     mySwiper.params.slideClass = mediaFilter;
 
-                    mySwiper.reInit();
-                    $('.swiper-slide-active').css({'marginLeft':'-1px'});
-                });
+                //     mySwiper.reInit();
+                //     $('.swiper-slide-active').css({'marginLeft':'-1px'});
+                // });
 
                     //media swipe visible slide
                     //Onload detect
 
-                    if ($(window).width() >760 & $(window).width() <  992  ){
-                         mySwiper.params.slidesPerView=2;
-                         mySwiper.resizeFix();         
-                    }
+                //     if ($(window).width() >760 & $(window).width() <  992  ){
+                //          mySwiper.params.slidesPerView=2;
+                //          mySwiper.resizeFix();         
+                //     }
 
-                    else
-                    if ($(window).width() < 767 & $(window).width() > 481){
-                         mySwiper.params.slidesPerView=3;
-                         mySwiper.resizeFix();    
+                //     else
+                //     if ($(window).width() < 767 & $(window).width() > 481){
+                //          mySwiper.params.slidesPerView=3;
+                //          mySwiper.resizeFix();    
                     
-                    } else
+                //     } else
 
-                     if ($(window).width() < 480 & $(window).width() > 361){
-                         mySwiper.params.slidesPerView=2;
-                         mySwiper.resizeFix();    
-                    } else
-                    if ($(window).width() < 360){
-                         mySwiper.params.slidesPerView=1;
-                         mySwiper.resizeFix();    
-                    }
+                //      if ($(window).width() < 480 & $(window).width() > 361){
+                //          mySwiper.params.slidesPerView=2;
+                //          mySwiper.resizeFix();    
+                //     } else
+                //     if ($(window).width() < 360){
+                //          mySwiper.params.slidesPerView=1;
+                //          mySwiper.resizeFix();    
+                //     }
 
-                    else{
-                        mySwiper.params.slidesPerView=4;
-                        mySwiper.resizeFix();
-                    }
+                //     else{
+                //         mySwiper.params.slidesPerView=4;
+                //         mySwiper.resizeFix();
+                //     }
 
-                     if ($('.swiper-container').width() > 900 ){
-                        mySwiper.params.slidesPerView=5;
-                        mySwiper.resizeFix();
-                     }
+                //      if ($('.swiper-container').width() > 900 ){
+                //         mySwiper.params.slidesPerView=5;
+                //         mySwiper.resizeFix();
+                //      }
 
-                  //Resize detect
-                $(window).resize(function(){
+                //   //Resize detect
+                // $(window).resize(function(){
 
-                     if ($(window).width() >760 & $(window).width() <  992  ){
-                         mySwiper.params.slidesPerView=2;
-                         mySwiper.reInit();         
-                    }
+                //      if ($(window).width() >760 & $(window).width() <  992  ){
+                //          mySwiper.params.slidesPerView=2;
+                //          mySwiper.reInit();         
+                //     }
 
-                    else
-                    if ($(window).width() < 767 & $(window).width() > 481){
-                         mySwiper.params.slidesPerView=3;
-                          mySwiper.reInit();    
+                //     else
+                //     if ($(window).width() < 767 & $(window).width() > 481){
+                //          mySwiper.params.slidesPerView=3;
+                //           mySwiper.reInit();    
                     
-                    } else
-                     if ($(window).width() < 480 & $(window).width() > 361){
-                         mySwiper.params.slidesPerView=2;
-                         mySwiper.reInit();   
-                    } else 
-                    if ($(window).width() < 360){
-                         mySwiper.params.slidesPerView=1;
-                         mySwiper.reInit();   
-                    }
+                //     } else
+                //      if ($(window).width() < 480 & $(window).width() > 361){
+                //          mySwiper.params.slidesPerView=2;
+                //          mySwiper.reInit();   
+                //     } else 
+                //     if ($(window).width() < 360){
+                //          mySwiper.params.slidesPerView=1;
+                //          mySwiper.reInit();   
+                //     }
 
-                    else{
-                        mySwiper.params.slidesPerView=4;
-                        mySwiper.reInit();
-                    }
+                //     else{
+                //         mySwiper.params.slidesPerView=4;
+                //         mySwiper.reInit();
+                //     }
 
 
-                 });
+                //  });
 
     //3. Slider item pop up
    				//boolian var
@@ -819,40 +407,20 @@ function init_MoviePage () {
 
     
     //5. Datepicker init
-                $( ".datepicker__input" ).datepicker({
-                  showOtherMonths: true,
-                  selectOtherMonths: true,
-                  showAnim:"fade"
-                });
+                // $( ".datepicker__input" ).datepicker({
+                //   showOtherMonths: true,
+                //   selectOtherMonths: true,
+                //   showAnim:"fade"
+                // });
 
-                $(document).click(function(e) { 
-                    var ele = $(e.target); 
-                    if (!ele.hasClass("datepicker__input") && !ele.hasClass("ui-datepicker") && !ele.hasClass("ui-icon") && !$(ele).parent().parents(".ui-datepicker").length){
-                       $(".datepicker__input").datepicker("hide");
-                     }
-                });
+                // $(document).click(function(e) { 
+                //     var ele = $(e.target); 
+                //     if (!ele.hasClass("datepicker__input") && !ele.hasClass("ui-datepicker") && !ele.hasClass("ui-icon") && !$(ele).parent().parents(".ui-datepicker").length){
+                //        $(".datepicker__input").datepicker("hide");
+                //      }
+                // });
 
-    //6. Reply comment form
-    			// button more comments
-                $('#hide-comments').hide();
-
-                $('.comment-more').click(function (e) {
-                        e.preventDefault();
-                        $('#hide-comments').slideDown(400);
-                        $(this).hide();
-                })
-
-                  //reply comment function
-                  $('.comment__reply').click( function (e) {
-                        e.preventDefault();
-
-                        $('.comment').find('.comment-form').remove();
-                        $(this).parent().append("<form id='comment-form' class='comment-form' method='post'>\
-                            <textarea class='comment-form__text' placeholder='Add you comment here'></textarea>\
-                            <label class='comment-form__info'>250 characters left</label>\
-                            <button type='submit' class='btn btn-md btn--danger comment-form__btn'>add comment</button>\
-                        </form>");
-                  });
+    
 
     //7. Timetable active element
     			$('.time-select__item').click(function (){

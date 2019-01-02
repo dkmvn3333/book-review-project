@@ -57,6 +57,40 @@ function getAllBooks2(){
             if(err){
                 defer.reject(err);
             }else{
+                const groupByID = posts.reduce((newposts, post) => {
+                    if(!newposts[post.book_id]) {
+                        newposts[post.book_id] = {
+                        book_id: post.book_id,
+                        name_book: post.name_book,
+                        pages: post.pages,
+                        description: post.description,
+                        rate: post.rate,
+                        image: post.image,
+                        number_rate: post.number_rate,
+                        category_id: [post.category_id],
+                        name: [post.name],
+                      }
+                      return newposts;
+                    }
+                    newposts[post.book_id].book_id = post.book_id;
+                    newposts[post.book_id].name_book = post.name_book;
+                    newposts[post.book_id].pages = post.pages;
+                    newposts[post.book_id].description = post.description;
+                    newposts[post.book_id].rate = post.rate;
+                    newposts[post.book_id].image = post.image;
+                    newposts[post.book_id].number_rate = post.number_rate;
+                    newposts[post.book_id].author = post.author;
+                    newposts[post.book_id].category_id.push(post.category_id);
+                    newposts[post.book_id].name.push(post.name)
+                    return newposts;
+                  
+                  }, {});
+                  
+                    posts = Object.keys(groupByID).map(key => {
+                    const post = groupByID[key];
+                    return post;
+                  });
+                //   console.log(posts);
                 defer.resolve(posts);
             }
         });
@@ -86,9 +120,71 @@ function getBooksByID2(id){
         });
         return defer.promise;
 }
+function getBooksByKey(key_book, category_id){
+    console.log(category_id);
+    var result ="";
+    if(category_id!=0){
+        result =" AND category.category_id = "+category_id;
+    }
+    console.log(result);
+    var defer = q.defer();
+            pool.query('SELECT * FROM book_tmp INNER JOIN book_category ON book_tmp.book_id = book_category.book_id INNER JOIN category ON category.category_id = book_category.category_id WHERE book_tmp.name_book LIKE "%'+key_book+'%"' + result, function(err, posts){           
+            if(err){
+                defer.reject(err);
+            }else{
+                const groupByID = posts.reduce((newposts, post) => {
+                    if(!newposts[post.book_id]) {
+                        newposts[post.book_id] = {
+                        book_id: post.book_id,
+                        name_book: post.name_book,
+                        pages: post.pages,
+                        description: post.description,
+                        rate: post.rate,
+                        image: post.image,
+                        number_rate: post.number_rate,
+                        author: post.author,
+                        category_id: [post.category_id],
+                        name: [post.name],
+                      }
+                      return newposts;
+                    }
+                    newposts[post.book_id].book_id = post.book_id;
+                    newposts[post.book_id].name_book = post.name_book;
+                    newposts[post.book_id].pages = post.pages;
+                    newposts[post.book_id].description = post.description;
+                    newposts[post.book_id].rate = post.rate;
+                    newposts[post.book_id].image = post.image;
+                    newposts[post.book_id].number_rate = post.number_rate;
+                    newposts[post.book_id].author = post.author;
+                    newposts[post.book_id].category_id.push(post.category_id);
+                    newposts[post.book_id].name.push(post.name)
+                    return newposts;
+                  
+                  }, {});
+                  
+                    posts = Object.keys(groupByID).map(key => {
+                    const post = groupByID[key];
+                    return post;
+                  });
+                defer.resolve(posts);
+            }
+        });
+        return defer.promise;
+}
 function getAllBooksBest(){
     var defer = q.defer();
             pool.query('SELECT * FROM book_tmp ORDER BY rate DESC limit 6', function(err, posts){
+            if(err){
+                defer.reject(err);
+            }else{
+                defer.resolve(posts);
+            }
+        });
+        return defer.promise;
+}
+function getAllBooksBest2(){
+    var defer = q.defer();
+            pool.query('SELECT * FROM book_tmp ORDER BY rate DESC', function(err, posts){
             if(err){
                 defer.reject(err);
             }else{
@@ -199,8 +295,10 @@ module.exports = {
     getAllBooks:getAllBooks,
     getAllBooks2:getAllBooks2,
     getAllBooksBest:getAllBooksBest,
+    getAllBooksBest2:getAllBooksBest2,
     getBookByID: getBookByID,
     getBooksByID2:getBooksByID2,
+    getBooksByKey:getBooksByKey,
     updateBook: updateBook,
     deleteBook: deleteBook,
     rateBooks: rateBooks

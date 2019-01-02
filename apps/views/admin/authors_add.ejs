@@ -1,0 +1,115 @@
+<%- include layouts/top-left%>
+<!--end top-left--> 
+
+<div class="main-panel">
+
+<!--nav bar-->
+<%- include layouts/nav-bar%>
+<!--nav bar-->
+
+
+<div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                    
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Add Author</h4>
+                            
+                        </div>
+                        <% if(data && data.errors){%>
+                            <%data.errors.forEach(function(item){%>
+                                <div class="alert alert-warning alert-dismissible show" role="alert">
+                                        <strong><%= item.msg%></strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div> 
+                            <%})%>
+                            <%}%>
+                            <% if(data && data.error){%>
+                                <div class="alert alert-warning alert-dismissible show" role="alert">
+                                        <strong><%= data.error%></strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div> 
+                            <%}%>
+                        <form class="form-horizontal" enctype="multipart/form-data" method="post" action="/admin/authors/add">
+                            <fieldset>
+                            
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="textinput">ID</label>  
+                              <div class="col-md-4">
+                              <input id="author_id" name="author_id" type="text" placeholder="ID of Author" class="form-control input-md">
+                                
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textinput">Name</label>  
+                                    <div class="col-md-4">
+                                    <input id="name" name="name" type="text" placeholder="Name of Author" class="form-control input-md">
+                                      
+                                    </div>
+                                  </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textinput">Birthday</label>  
+                                    <div class="col-md-4">
+                                    <input id="birthday" name="birthday" type="text" placeholder="Birthday of Author" class="form-control input-md">
+                                      
+                                    </div>
+                                  </div>
+                            
+                                  <!-- Text input-->
+                            <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textinput">Nationality</label>  
+                                    <div class="col-md-4">
+                                    <input id="nationality" name="nationality" type="text" placeholder="Nationality of Author" class="form-control input-md">
+                                      
+                                    </div>
+                                  </div>
+                            
+                            <!-- Textarea -->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="textarea">Discription</label>
+                              <div class="col-md-4">                     
+                                <textarea class="form-control" id="discription" name="description" placeholder="Discription of category"></textarea>
+                              </div>
+                            </div>
+
+                            <!-- File Button --> 
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="filebutton">Image</label>
+                                <div class="col-md-4">
+                                <input id="filebutton" name="author_image" class="input-file" type="file">
+                                </div>
+                            </div>
+                            
+                            <!-- Button -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for=""></label>
+                                <div class="col-md-4">
+                                <button type="submit" name="" class="btn btn-primary">Save</button>
+                                </div>
+                                
+                            </div>
+                            </fieldset>
+                            </form>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+        
+		<!--footer-->
+        <%- include layouts/footer%>

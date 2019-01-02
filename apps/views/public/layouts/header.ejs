@@ -38,8 +38,8 @@
         <!-- Modernizr --> 
         <script src="/static_public/assets/js/external/modernizr.custom.js"></script>
     
-    <!--    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-        <script>tinymce.init({ selector:'textarea' });</script> -->
+       <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+        <script>tinymce.init({ selector:'textarea' });</script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries --> 
     <!--[if lt IE 9]> 
     	<script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script> 
@@ -51,7 +51,7 @@
     <div class="wrapper">
         <!-- Banner -->
         <div class="banner-top">
-            <img width="1500px" height="90px" alt='top banner' src="../uploads/velobook_banner.png">
+            <img width="1500px" height="90px" alt='top banner' src="../uploads/banner1600902.jpg">
         </div>
 
         <!-- Header section -->
@@ -59,7 +59,7 @@
             <div class="container">
                 <!-- Logo link-->
                 <a href='/' class="logo">
-                    <img alt='logo' src="../uploads/velobook.png">
+                    <img width="100px" height="50px" alt='logo' src="../uploads/logo2.png">
                 </a>
                 
                 <!-- Main website navigation-->
@@ -72,28 +72,62 @@
                             </span>
                         </span>
                     </a>
-                    
+                    <% 
+                var trangchu ="";
+                var listsach ="";
+                var listassess ="";
+                var postassess ="";
+                var rank ="";
+                if(active){
+                    switch(active){
+                        case "home":{
+                            trangchu="main-active";
+                            break;
+                        }
+                        case "list_book":{
+                            listsach="main-active";
+                            break;
+                        }
+                        case "list_assessment":{
+                            listassess="main-active";
+                            break;
+                        }
+                        case "post_assessment":{
+                            postassess="main-active";
+                            break;
+                        }
+                        case "list_rate":{
+                            rank="main-active";
+                            break;
+                        }
+                        default:
+                        {
+                            trangchu="main-active";
+                        }
+                    }
+                }
+            %>
                     <!-- Link navigation -->
                     <ul id="navigation">
-                        <li>
+                        <li class="<%=trangchu%>">
                             <span class="sub-nav-toggle plus"></span>
                             <a  href="/">Trang chủ</a>
                         </li>
-                        <li>
+                        <li class="<%=listsach%>">
                             <span class="sub-nav-toggle plus"></span>
                             <a href="/list_book">Sách</a>
                         </li>
-                        <li>
+                        <li class="<%=listassess%>">
                             <span class="sub-nav-toggle plus"></span>
                             <a href="/list_assessment">Đánh giá</a>
                         </li>
-                        <li>
+                        <li class="<%=postassess%>">
                             <span class="sub-nav-toggle plus"></span>
                             <a href="/post_assessment">Viết bài</a>
                         </li>
-                        <li>
+                        <li class="<%=rank%>">
                             <span class="sub-nav-toggle plus"></span>
-                            <a href="/list_rate">Rates</a>
+                            <a href="/list_rate">Xếp hạng</a>
                         </li>
                     </ul>
                 </nav>

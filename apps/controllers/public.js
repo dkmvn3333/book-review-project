@@ -20,6 +20,7 @@ var session = require("express-session");
 var user_md = require("../models/user");
 var assessment_md = require("../models/assessment");
 var book_md = require("../models/book");
+var category_md = require("../models/category");
 var helper = require("../helpers/helper");
 
 router.get("/", function(req,res){
@@ -27,9 +28,10 @@ router.get("/", function(req,res){
         data.then(function(books_best){
             data2 = book_md.getAllBooks2();
             data2.then(function(books){
+                console.log(books.length);
                 var data ={
                     books_best : books_best,
-                    books : books,
+                    books : books.slice(0,4),
                     error : false
                 };
                 res.render("public/index",{active : "home", data : data, user:false});
@@ -49,6 +51,60 @@ router.get("/", function(req,res){
             res.render("public/index",{active : "home", data : data, user:false});
         });
 });
+router.put("/read-more", function(req, res){
+    var page = req.body.page;
+    console.log("tinh: "+(page-(-1))*4);
+    
+    var data = book_md.getAllBooks2();
+    if(!data){
+        res.render("public/read-more",{});
+    }else{
+        data.then(function(books){
+            console.log("page: "+page);
+            var data2 ={
+                books : books.slice(page*4,(page-(-1))*4),
+            };
+            res.render("public/read_more",{data2: data2});
+        }).catch(function(err){
+            res.render("public/read-more",{});
+        })
+    }
+})
+router.put("/comment", function(req, res){
+    var content = req.body.content;
+    var user_id = req.body.user_id;
+    var parent_id = req.body.parent_id;
+    var book_review_id = req.body.book_review_id;
+    
+    var comment ={
+        content: content,
+        user_id: user_id,
+        parent_id: parent_id,
+        book_review_id: book_review_id
+    };
+    var result = assessment_md.addComment(comment);
+    result.then(function(data){
+        console.log("oke");
+        var data = assessment_md.getAllCommentsByAssessment(book_review_id);
+        if(!data){
+            return;
+        }else{
+            data.then(function(comments){
+                console.log("oke 2");
+                var data ={
+                    comments : comments,
+                };
+                res.render("public/comment",{data: data});
+            }).catch(function(err){
+                res.render("public/comment",{});
+            })
+        }
+    }).catch(function(err){
+        console.log("false");
+        
+        return;
+    });
+})
 router.get("/signup", function(req,res){
     res.render("public/signup",{active: "signup",data:{}});
 });
@@ -147,14 +203,81 @@ router.get("/logout", function(req,res){
 router.get("/list_book", function(req,res){
     var data = book_md.getAllBooks2();
         data.then(function(books){
+            // console.log("length_page:"+book.length/8);
+            var data2 = category_md.getAllCategories();
+            data2.then(function(categories){
             var data ={
-                books : books,
+                books : books.slice(0,4),
+                page : 1,
+                categories: categories,
+                length_page : books.length/4,
                 error : false
             };
             res.render("public/list_book",{active : "list_book", data : data, user:false});
+        })
         }).catch(function(err){
             var data ={
                 books:false,
+                page : false,
+                categories : false,
+                length_page: false,
+                error : "Could not get posts data",
+            }
+            res.render("public/list_book",{active : "list_book", data : data, user:false});
+        });
+});
+router.get("/list_book/:page", function(req,res){
+    var param = req.params;
+    var page = param.page;
+    var data = book_md.getAllBooks2();
+        data.then(function(books){
+            var data2 = category_md.getAllCategories();
+            data2.then(function(categories){
+                console.log("so trang: " +books.length/4);
+                var data ={
+                    books : books.slice((page-1)*4,page*4),
+                    categories: categories,
+                    page : page,
+                    length_page : books.length/4,
+                    error : false
+                };
+                res.render("public/list_book",{active : "list_book", data : data, user:false});
+            })
+        }).catch(function(err){
+            var data ={
+                books:false,
+                categories: false,
+                page : page,
+                length_page: false,
+                error : "Could not get posts data",
+            }
+            res.render("public/list_book",{active : "list_book", data : data, user:false});
+        });
+});
+router.get("/timkiem" , function(req,res){
+    var key_book = req.query['key_book'];
+    var sorting_item = req.query['sorting_item']
+    console.log(key_book +" : "+sorting_item);
+    var data = book_md.getBooksByKey(key_book, sorting_item);
+        data.then(function(books){
+            console.log("length_page:"+books.length);
+            var data2 = category_md.getAllCategories();
+            data2.then(function(categories){
+            var data ={
+                books : books.slice(0,4),
+                page : 1,
+                categories: categories,
+                length_page : books.length/4,
+                error : false
+            };
+            res.render("public/list_book",{active : "list_book", data : data, user:false});
+        })
+        }).catch(function(err){
+            var data ={
+                books:false,
+                page : false,
+                categories : false,
+                length_page: false,
                 error : "Could not get posts data",
             }
             res.render("public/list_book",{active : "list_book", data : data, user:false});
@@ -275,18 +398,81 @@ router.get("/list_assessment", function(req,res){
         var data = assessment_md.getAllAssessments();
         data.then(function(assessments){
             var data ={
-                assessments : assessments,
+                assessments : assessments.slice(0,4),
+                page : 1,
+                id: 0,
+                length_page : assessments.length/4,
                 error : false
             };
             res.render("public/list_assessment",{active : "list_assessment", data : data, user:false});
         }).catch(function(err){
             var data ={
                 books:false,
+                page : 1,
+                id: 0,
+                length_page : assessments.length/4,
                 error : "Could not get posts data",
             }
             res.render("public/list_assessment",{active : "list_assessment", data : data, user:false});
         });
 });
+router.get("/list_assessment/:id&:page", function(req,res){
+    var param = req.params;
+    var id = param.id;
+    var page = param.page;
+    console.log("id: "+id+"---"+"page: "+page);
+    if(id!=0){
+        console.log("have id");
+        var data = assessment_md.getAssessmentByIDBook(id);
+    }else var data = assessment_md.getAllAssessments();
+    data.then(function(assessments){
+    console.log("leng page=:" +assessments.length/4);
+
+        var data ={
+            assessments : assessments.slice((page-1)*4,page*4),
+            page : page,
+            id: id,
+            length_page : assessments.length/4,
+            error : false
+        };
+        res.render("public/list_assessment",{active : "list_assessment", data : data, user:false});
+    }).catch(function(err){
+        var data ={
+            books:false,
+            page : 1,
+            id: 0,
+            length_page : assessments.length/4,
+            error : "Could not get posts data",
+        }
+        res.render("public/list_assessment",{active : "list_assessment", data : data, user:false});
+    });
+});
+// router.get("/list_assessment/:page", function(req,res){
+//     var param = req.params;
+//     var page = param.page;
+//     console.log("Test1");
+    
+//     var data = assessment_md.getAllAssessments();
+//         data.then(function(assessments){
+//             console.log("so trang: (assess)"+assessments.length/4);
+            
+//             var data ={
+//                 assessments : assessments.slice((page-1)*4,page*4),
+//                 page : page,
+//                 length_page : assessments.length/4,
+//                 error : false
+//             };
+//             res.render("public/list_assessment",{active : "list_assessment", data : data, user:false});
+//         }).catch(function(err){
+//             var data ={
+//                 assessments:false,
+//                 page : page,
+//                 length_page: false,
+//                 error : "Could not get posts data",
+//             }
+//             res.render("public/list_assessment",{active : "list_assessment", data : data, user:false});
+//         });
+// });
 router.get("/detail_assessment/:id", function(req,res){
     var param = req.params;
         var id = param.id;
@@ -295,11 +481,17 @@ router.get("/detail_assessment/:id", function(req,res){
         if(data){
             data.then(function(assessments){
                 var assessment = assessments[0];
-                var data ={
-                    assessment:assessment,
-                    error : false,
+                var data2 = assessment_md.getAllCommentsByAssessment(assessment.book_review_id);
+                if(data2){
+                    data2.then(function(comments){
+                        var data ={
+                            assessment:assessment,
+                            comments: comments,
+                            error : false,
+                        }
+                        res.render("public/detail_assessment", {active : "assessments",data:data , user:false});
+                    })
                 }
-                res.render("public/detail_assessment", {active : "assessments",data:data , user:false});
             }).catch(function(err){
                 var data ={
                     book:false,
@@ -317,6 +509,24 @@ router.get("/detail_assessment/:id", function(req,res){
 });
 
 router.get("/list_rate", function(req,res){
-    res.render("public/list_rate",{active: "list_rate"});
+    var data = book_md.getAllBooksBest2();
+    data.then(function(books){
+        // console.log("length_page:"+book.length/8);
+        var data ={
+            books_best : books.slice(0,8),
+            page : 1,
+            length_page : books.length/8,
+            error : false
+        };
+        res.render("public/list_rate",{active : "list_rate", data : data, user:false});
+    }).catch(function(err){
+        var data ={
+            books_best:false,
+            page : false,
+            length_page: false,
+            error : "Could not get posts data",
+        }
+        res.render("public/list_rate",{active : "list_rate", data : data, user:false});
+    });
 });
 module.exports = router;

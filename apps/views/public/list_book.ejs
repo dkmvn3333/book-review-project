@@ -3,14 +3,17 @@
         <!-- Search bar -->
         <div class="search-wrapper">
             <div class="container container--add">
-                <form id='search-form' method='get' class="search">
-                    <input type="text" class="search__field" placeholder="Search">
+                <form id='search-form' method='GET' class="search" action="/timkiem">
+                    <input type="text" name="key_book" class="search__field" placeholder="Search">
                     <select name="sorting_item" id="search-sort" class="search__sort" tabindex="0">
-                        <option value="1" selected='selected'>By title</option>
-                        <option value="2">By year</option>
-                        <option value="3">By producer</option>
-                        <option value="4">By title</option>
-                        <option value="5">By year</option>
+                        <option value="0" selected='selected'>All</option>
+                        <% if(data && data.categories){%>
+                            <%data.categories.forEach(function(item){%>
+                                    <option value="<%=item.category_id%>"><%=item.name%></option>
+                                    <%})%>
+                                    <%}%>
+                        
+                        
                     </select>
                     <button type='submit' class="btn btn-md btn--danger search__button">search a movie</button>
                 </form>
@@ -20,7 +23,7 @@
         <!-- Main content -->
         <section class="container">
             <div class="col-sm-8 col-md-9">
-                <h2 class="page-heading">Movies</h2>
+                <h2 class="page-heading">Sách</h2>
                 
                 <div class="tags-area">
                     <div class="tags tags--unmarked">
@@ -34,9 +37,16 @@
                             </ul>
                     </div>
                 </div>
-                
+
                 <!-- Movie preview item -->
-                <% if(data && data.books){%>
+                <% if(data && data.books){
+                    if(data.books.length==0){
+                        %>
+                        <h2>Không có sách hiện tại!</h2>
+                        <%
+                    }
+                    
+                    %>
                     <%for(var i=0; i<data.books.length; i++){
                     if(i!=0 && data.books[i].book_id==data.books[i-1].book_id)continue;    
                     %>
@@ -60,15 +70,13 @@
                             <p class="movie__option"><strong>Author: </strong><a href="#"><%=data.books[i].author%></a></p>
                             <p class="movie__option"><strong>Category: </strong>
 
-                                <a href="#"><%=data.books[i].name%></a>
-                                <%for(var j=i+1;j<data.books.length;j++){
-                                    if(data.books[i].book_id== data.books[j].book_id){
+                                <a>|</a>
+                                        <%for(var k=0;k<data.books[i].name.length;k++){
+                                                %>
+                                                <a href="/timkiem?key_book=&sorting_item=<%=data.books[i].category_id[k]%>"><%=data.books[i].name[k]%>|</a>
+                                                <%
+                                        } 
                                         %>
-                                        <a href="#">|<%=data.books[j].name%></a>
-                                        <%
-                                    }
-                                } 
-                                %>
                                     
                                 
                             
@@ -76,8 +84,10 @@
                             <p class="movie__option"><strong>Age restriction: </strong><a href="#">13</a></p>
 
                             <div class="movie__btns">
+                                <a href="/list_assessment/<%=data.books[i].book_id%>&1" class="btn btn-md btn--warning"><span class="hidden-sm">Xem bài viết</span></a>
                                 <a href="/post_assessment/<%=data.books[i].book_id%>" class="watchlist">Viết bài đánh giá</a>
                             </div>
+                            
 
                             <div class="preview-footer">
                                 
@@ -94,8 +104,22 @@
 
                 <div class="coloum-wrapper">
                     <div class="pagination paginatioon--full">
-                            <a href='#' class="pagination__prev">prev</a>
-                            <a href='#' class="pagination__next">next</a>
+                            <%
+                                if(data.page!=1){
+                                    %>
+                                    <a href='/list_book/<%=data.page -1%>' class="pagination__prev">prev</a>
+                                    <%
+                                }
+                            %>
+                            <%
+                                if(data.page!=data.length_page && data.books.length!=0){
+                                    %>
+                                    <a href='/list_book/<%=data.page -(-1)%>' class="pagination__next">next</a>
+                                    <%
+                                }
+                            %>
+                            
+                            
                     </div>
                 </div>
 

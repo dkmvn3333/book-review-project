@@ -1,0 +1,72 @@
+<div class="comment-sets">
+                   <% if(data && data.comments){ var i =0;%>
+                                <%data.comments.forEach(function(item){ %>
+                                    <% if(item.parent_id!=0){%>
+                                        <%return;%>
+                                        <%}%>
+                        <div class="comment">
+                            <div class="comment__images">
+                                <img alt='' src="http://placehold.it/50x50">
+                            </div>
+
+                            <a href='#' class="comment__author"><span class="social-used fa fa-facebook"></span><%=item.user_id%></a>
+                            <p class="comment__date"><%=item.date%></p>
+                            <p class="comment__message"><%=item.content_comment%></p>
+                            <a href='#' class="comment__reply" parent_id="<%=item.comment_id%>">Reply</a>
+                        </div>
+                            <%data.comments.forEach(function(item2){  %>
+                                <%if(item2.parent_id==item.comment_id){%>
+                                    <div class="comment comment--answer">
+                                        <div class="comment__images">
+                                            <img alt='' src="http://placehold.it/50x50">
+                                        </div>
+            
+                                        <a href='#' class="comment__author"><span class="social-used fa fa-vk"></span><%=item2.user_id%></a>
+                                        <p class="comment__date"><%=item2.date%></p>
+                                        <p class="comment__message"><%=item2.content_comment%></p>
+                                        <a href='#' class="comment__reply" parent_id="<%=item.comment_id%>">Reply</a>
+                                    </div>
+                                <%}%>
+                            <%})%>
+                        <%})%>
+                        <%}%>
+
+                        <div class="comment-more">
+                            <a href="#" class="watchlist">Show more comments</a>
+                        </div>
+
+    <script src="/static_public/assets/js/custom.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            init_MoviePage();
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.btn-comment').on('click', commentFunction);
+                    
+                            $('.comment').on('click', '.btn-reply', commentFunction);
+                    
+                            function commentFunction(){
+                                    alert("0");
+                                    var content = $(this).parent().find(".comment-content").val().trim();
+                                    if(content==""){
+                                        return;
+                                    }
+                                    var user_id = $("#user_id").val();
+                                    var book_review_id = $("#book_review_id").val();
+                                    var parent_id = $(this).attr("parent_id");  
+                                    var base_url = location.protocol+"//"+ document.domain +":"+location.port;
+                                    $.ajax({
+                                        url: base_url+ "/comment",
+                                        type: "PUT",
+                                        data: {content:content,user_id: user_id, parent_id:parent_id,book_review_id: book_review_id },
+                                        success: function(response){
+                                            $(".comment-content").val("");
+                                            $(".comment-sets").replaceWith(response);
+                                        }
+                                    })
+                            }
+        });
+    </script>
+</div>

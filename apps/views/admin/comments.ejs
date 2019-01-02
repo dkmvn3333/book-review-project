@@ -57,25 +57,30 @@
                             <table class="table table-striped table-bordred">
                                 <thead>
                                     <th>ID</th>
-                                    <th>Poster</th>
-                                    <th>Content</th>
-                                    <th>Assessment</th>
-                                    <th>Book</th>
-                                    <th></th>
+                                    <th>Tên sách</th>
+                                    <th>Tên bài đánh giá</th>
+                                    <th>Người đăng</th>
+                                    <th>Nội dung</th>
+                                    <th>Trạng thái</th>
                                 </thead>
                                 <tbody>
+                                        <% if(data && data.comments){%>
+                                            <%data.comments.forEach(function(item){%>
                                     <tr>
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>Checker</td>
-                                        <td>rice@gmail.com</td>
-                                        <td>Hue</td>
+                                        <td><%= item.comment_id%></td>
+                                        <td><%= item.name_book%> </td>
+                                        <td><%= item.title%> </td>
+                                        <td><%= item.name%></td>
+                                        <td><%= item.content_comment%></td>
                                         <td>
-                                            <a href="" class="btn btn-primary btn-xs" ><span class="ti-pencil"></span></a>
-                                            <a href="" class="btn btn-danger btn-xs" ><span class="ti-trash"></span></a>
+                                                <div class="material-switch">
+                                                    <input class="checkbox_btn" id="checkbox<%= item.book_review_id%>" assessment_id="<%= item.book_review_id%>" name="someSwitchOption001" type="checkbox" <% if(item.status!=0){%>checked <%} %> value="<%= item.status%>"/>
+                                                    <label for="checkbox<%= item.book_review_id%>" class="label-success"></label>
+                                                </div>
                                         </td>    
                                     </tr>
-                                    
+                                    <%})%>
+                                    <%}%>
                                 </tbody>
                             </table>
 
@@ -98,6 +103,7 @@
         
     </div>
 
+        <script type="text/javascript" src="/static_admin/assets/js/assessment.js"></script>
         
 		<!--footer-->
         <%- include layouts/footer%>

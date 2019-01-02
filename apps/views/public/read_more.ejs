@@ -1,0 +1,43 @@
+<% if(data2 && data2.books){ var i =0;%>
+    <%for(var j=0; j<data2.books.length; j++){
+        if(j!=0 && data2.books[j].book_id==data2.books[j-1].book_id)continue;
+        i++;    
+    %>
+    <div class="movie movie--test  <%if(i%4==1){%>movie--test--dark movie--test--left<%}else if(i%4==2){%>movie--test--light movie--test--left<%}else if(i%4==3){%>movie--test--light movie--test--right<%}else if(i%4==0){%>movie--test--dark movie--test--right<%}%>">
+        <div class="movie__images">
+            <a href="/detail_book/<%=data2.books[j].book_id%>" class="movie-beta__link">
+                <img height="211px" alt='' src="../uploads/<%=data2.books[j].image%>">
+            </a>
+        </div>
+
+        <div class="movie__info">
+            <a href='/detail_book/<%=data2.books[j].book_id%>' class="movie__title"><%=data2.books[j].name_book%></a>
+
+            <p class="movie__time"><%=data2.books[j].pages%> trang</p>
+
+            <p class="movie__option"><a href="#"><strong>Author: </strong> <%=data2.books[j].author%></a></p>
+
+            <p class="movie__option"><strong>Category: </strong>
+                <a>|</a>
+                <%for(var k=0;k<data2.books[j].name.length;k++){
+                        %>
+                        <a href="#"><%=data2.books[k].name[k]%>|</a>
+                        <%
+                } 
+                %>
+                    
+            </p>
+
+            <div class="movie__rate">
+                <% if(user_public!=null){%>
+                <div class="score_index" id="<%=data2.books[j].book_id%>" ></div>
+                <%}%>
+                <span id="rate<%=data2.books[j].book_id%>" class="movie__rating"><%=data2.books[j].rate%></span>
+            </div>               
+        </div>
+    </div>
+ <!-- Movie variant with time -->
+
+ <%}%>
+ <%}%>
+ <div class="page-read-more"></div>

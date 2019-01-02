@@ -1,0 +1,110 @@
+<%- include layouts/top-left%>
+<!--end top-left--> 
+
+<div class="main-panel">
+
+<!--nav bar-->
+<%- include layouts/nav-bar%>
+<!--nav bar-->
+
+
+<div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                    
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Edit Author</h4>
+                            
+                        </div>
+                        <% if(data && data.errors){%>
+                            <%data.errors.forEach(function(item){%>
+                                <div class="alert alert-warning alert-dismissible show" role="alert">
+                                        <strong><%= item.msg%></strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div> 
+                            <%})%>
+                            <%}%>
+                            <% if(data && data.error){%>
+                                <div class="alert alert-warning alert-dismissible show" role="alert">
+                                        <strong><%= data.error%></strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div> 
+                            <%}%>
+                        <form class="form-horizontal" enctype="multipart/form-data" method="" action="">
+                            <fieldset>
+                            <% if(data && data.author){%>
+                            <input type="hidden" id="author_id" value="<%=data.author.author_id%>">
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="textinput">ID</label>  
+                              <div class="col-md-4">
+                              <input id="author_id" name="author_id" type="text" placeholder="ID of Author" class="form-control input-md">
+                                
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textinput">Name</label>  
+                                    <div class="col-md-4">
+                                    <input id="name" name="name" type="text" placeholder="Name of Author" class="form-control input-md" value="<%=data.author.name%>">
+                                      
+                                    </div>
+                                  </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textinput">Birthday</label>  
+                                    <div class="col-md-4">
+                                    <input id="birthday" name="birthday" type="text" placeholder="Birthday of Author" class="form-control input-md" value="<%=data.author.birthday%>">
+                                      
+                                    </div>
+                                  </div>
+                            
+                                  <!-- Text input-->
+                            <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textinput">Nationality</label>  
+                                    <div class="col-md-4">
+                                    <input id="nationality" name="nationality" type="text" placeholder="Nationality of Author" class="form-control input-md" value="<%=data.author.nationality%>">
+                                      
+                                    </div>
+                                  </div>
+                            
+                            <!-- Textarea -->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="textarea">Description</label>
+                              <div class="col-md-4">                     
+                                <textarea class="form-control" id="description" name="description" placeholder="Discription of author" value="<%=data.author.description%>"></textarea>
+                              </div>
+                            </div>
+                            
+                            <!-- Button -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for=""></label>
+                                <div class="col-md-4">
+                                <button type="button" name="" class="btn btn-primary" id="edit-btn">Save</button>
+                                </div>
+                                
+                            </div>
+                            <%}%>
+                            </fieldset>
+                            </form>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static_admin/assets/js/author.js"></script>
+
+        
+		<!--footer-->
+        <%- include layouts/footer%>

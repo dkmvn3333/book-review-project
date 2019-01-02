@@ -2779,13 +2779,13 @@ input[type="button"].btn-block {
 }
 .logo {
   position: absolute;
-  top: 16px;
+  top: 2px;
   left: 15px;
   z-index: 2;
 }
 .logo img {
-  width: 111px;
-  height: 17px;
+  width: 100px;
+  height: 50px;
 }
 #navigation-box {
   background-color: transparent;
@@ -4457,6 +4457,10 @@ ul#navigation li.mega-menu__coloum--outheading {
 ul#navigation > li {
   padding-bottom: 21px;
 }
+
+li.main-active {}
+
+li.main-active a {color: #f7f102 !important;}
 ul#navigation > li > ul.mega-menu {
   width: 1140px;
   left: -792px;

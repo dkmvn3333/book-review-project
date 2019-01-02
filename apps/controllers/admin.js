@@ -18,6 +18,7 @@ var category_md = require("../models/category");
 var user_md = require("../models/user");
 var assessment_md = require("../models/assessment");
 var book_md = require("../models/book");
+var author_md = require("../models/author");
 
 router.get("/", function(req,res){
     if(req.session.user){
@@ -497,7 +498,141 @@ router.delete("/categories/delete", function(req, res){
     }
 })
 router.get("/authors", function(req,res){
-    res.render("admin/authors", {active : "authors"});
+    if(req.session.user){
+        var data = author_md.getAllAuthors();
+        data.then(function(authors){
+            var data ={
+                authors : authors,
+                error : false
+            };
+
+            res.render("admin/authors",{active : "authors", data : data, success_msg: req.flash('success_msg'),error_msg: req.flash('error_msg')});
+        }).catch(function(err){
+            var data ={
+                authors:false,
+                error : "Could not get posts data",
+            }
+            res.render("admin/authors",{active : "authors", data : data, success_msg:false, error_msg:false});
+        });
+    }else{
+        req.flash('error_msg', 'Vui lòng đăng nhập với quyền Admin!');
+        res.redirect("/admin/login");
+    }
+});
+//////////////////
+router.get("/authors/add", function(req,res){
+    if(req.session.user){
+        res.render("admin/authors_add", {active : "authors",data:{errors:false, error:false}});
+    }else{
+        req.flash('error_msg', 'Vui lòng đăng nhập với quyền Admin!');
+        res.redirect("/admin/login");
+    }
+    
+});
+//////////////////
+router.post("/authors/add",upload.single('author_image') ,function(req,res){
+    var name = req.body.name;
+    var description = req.body.description;
+    console.log(name +" "+description);
+    
+    if(req.file){
+        console.log("Uploading File...");
+        var image = req.file.originalname;
+    }else{
+        console.log("No File Uploaded...");
+        var image = 'noimage.jpg';
+    }
+
+    req.checkBody('name','Name field is required').notEmpty();
+       // Check Errors
+       var errors = req.validationErrors();
+       if(errors){
+           console.log("Errors");
+           res.render("admin/authors_add",{active: "authors", data:{errors : errors, error:false}});
+       }else{
+           console.log("No Errors");
+
+           var author ={
+               name: name,
+               description: description,
+               author_image: image
+           };
+           console.log("preparing add author");
+       
+           var result = author_md.addAuthor(author);
+           result.then(function(data){
+               // res.json({message: "Insert success"});
+                req.flash('msg', 'Thêm danh mục thành công!');
+                res.redirect("/admin/authors");
+           }).catch(function(err){
+               console.log("Lỗi");
+               res.render("admin/authors_add",{active: "authors", data:{error: "Tên danh mục đã tồn tại!", errors : false}});
+           });
+       }
+});
+//////////////////
+router.get("/authors/edit/:id", function(req,res){
+    if(req.session.user){
+        console.log("1");
+        
+        var param = req.params;
+        var id = param.id;
+        var data = author_md.getAuthorsByID(id);
+        console.log("2");
+        if(data){
+            data.then(function(authors){
+                var author = authors[0];
+                console.log("ahihi :" +author.author_id);
+                res.render("admin/authors_edit", {active : "authors",data:{author : author, errors:false, error:false}});
+            }).catch(function(err){
+                req.flash('error_msg', 'Vui lòng đăng nhập với quyền Admin!');
+                res.redirect("/admin/categories");
+            });
+        }else{
+            req.flash('error_msg', 'Vui lòng đăng nhập với quyền Admin!');
+            res.redirect("/admin/categories");
+        }
+    }else{
+        req.flash('error_msg', 'Vui lòng đăng nhập với quyền Admin!');
+        res.redirect("/admin/login");
+    }
+    
+});
+//////////////////
+router.put("/authors/edit",upload.single('author_image'), function(req, res){
+    var params = req.body;
+    console.log(params);
+        if(params.name.trim().length == 0){
+            res.json({status_code: 501})
+        }else{
+            data = author_md.updateAuthor(params);
+            if(!data){
+                res.json({status_code:500});
+            }else{
+                data.then(function(result){
+                    res.json({status_code: 200});
+                }).catch(function(err){
+                    res.json({status_code: 500})
+                })
+            }
+        }
+    
+});
+//////////////////
+router.delete("/authors/delete", function(req, res){
+    var author_id = req.body.author_id;
+    console.log("id"+author_id);
+    
+    data = author_md.deleteAuthor(author_id);
+    if(!data){
+        res.json({status_code:500});
+    }else{
+        data.then(function(result){
+            res.json({status_code: 200});
+        }).catch(function(err){
+            res.json({status_code: 500})
+        })
+    }
 });
 router.get("/translators", function(req,res){
     res.render("admin/translators", {active : "translators"});
@@ -562,8 +697,28 @@ router.put("/books/rate", function(req, res){
     }
 })
 router.get("/comments", function(req,res){
-    res.render("admin/comments", {active : "comments"});
+    if(req.session.user){
+        var data = assessment_md.getAllComments();
+        data.then(function(comments){
+            var data ={
+                comments : comments,
+                error : false
+            };
+
+            res.render("admin/comments",{active : "comments", data : data, success_msg: req.flash('success_msg'),error_msg: req.flash('error_msg')});
+        }).catch(function(err){
+            var data ={
+                comments:false,
+                error : "Could not get posts data",
+            }
+            res.render("admin/comments",{active : "comments", data : data, success_msg:false, error_msg:false});
+        });
+    }else{
+        req.flash('error_msg', 'Vui lòng đăng nhập với quyền Admin!');
+        res.redirect("/admin/login");
+    }
 });
+
 router.get("/login", function(req,res){
         res.render("admin/login",{data:{error: false}, error_msg: req.flash('error_msg')});
 });
